@@ -1,0 +1,1268 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Fast and Clear</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+/* Layout: a quiet list of ten topics; picking one opens a full-screen teleprompter with a fixed focus line. */
+:root {
+  --bg: #ffffff;
+  --ink: #111214;
+  --muted: #6a6d75;
+  --line: #e6e7ea;
+  --accent: #2b3fd6;
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--ink); }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  -webkit-font-smoothing: antialiased;
+}
+body { overflow-x: clip; }
+body.locked { overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- Home ---------- */
+.home { max-width: 60rem; margin: 0 auto; padding-block: clamp(40px, 9vw, 96px) 64px; }
+.brand { font-size: 0.8125rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 20px; }
+.home h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 11vw, 6.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  text-wrap: balance;
+}
+.lead { max-width: 34rem; color: var(--muted); font-size: 1.0625rem; margin: 0 0 clamp(36px, 7vw, 64px); }
+.levels { display: flex; gap: clamp(16px, 5vw, 36px); flex-wrap: wrap; margin: 0 0 28px; }
+.level { background: none; border: 0; border-bottom: 2px solid transparent; min-height: 44px; padding: 6px 0 8px; text-align: left; color: var(--muted); }
+.level .code { display: block; font-family: var(--font-display); font-size: clamp(2rem, 6vw, 2.75rem); line-height: 1; letter-spacing: -0.01em; }
+.level .lab { display: block; font-size: 0.8125rem; margin-top: 4px; }
+.level:hover { color: var(--ink); }
+.level[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.topics { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; column-gap: 48px; border-top: 1px solid var(--line); }
+.topic {
+  width: 100%;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  background: none; border: 0; border-bottom: 1px solid var(--line);
+  padding: 20px 0; text-align: left;
+  transition: padding-left .2s ease;
+}
+.topic .t { min-width: 0; }
+.topic .name { overflow-wrap: anywhere; }
+.topic .name { display: block; font-weight: 600; font-size: 1.1875rem; letter-spacing: -0.01em; }
+.topic .uz { display: block; color: var(--muted); font-size: 0.9375rem; margin-top: 2px; }
+.topic .meta { color: var(--muted); font-size: 0.8125rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.topic:hover { padding-left: 10px; }
+.topic:hover .name { color: var(--accent); }
+@media (min-width: 720px) { .topics { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1400px) { .home { max-width: 76rem; } .lead { font-size: 1.1875rem; max-width: 38rem; } }
+@media (prefers-reduced-motion: reduce) { .topic { transition: none; } .topic:hover { padding-left: 0; } }
+
+/* ---------- Reader ---------- */
+.reader {
+  position: fixed; inset: 0; z-index: 20; height: 100%; height: 100dvh; max-width: 100%;
+  display: flex; flex-direction: column;
+  background: var(--bg);
+  padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 12px; }
+.link { display: inline-flex; align-items: center; flex: none; min-height: 44px; background: none; border: 0; padding: 0 8px 0 0; font-size: 1rem; font-weight: 500; border-bottom: 1px solid transparent; }
+.link:hover { border-bottom-color: var(--ink); }
+.now { flex: 1 1 auto; text-align: right; min-width: 0; }
+.now .n { font-weight: 600; font-size: 0.9375rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.now .s { color: var(--muted); font-size: 0.8125rem; }
+.progress { height: 2px; background: var(--line); flex: none; }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); }
+
+.stage {
+  position: relative; flex: 1; min-height: 0; overflow: hidden; cursor: pointer;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 82%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 82%, transparent 100%);
+}
+.track {
+  position: absolute; left: 0; right: 0; top: 0; margin: 0 auto; will-change: transform;
+  font-size: clamp(1.3rem, 6.4vw, 2.25rem); max-width: 14em; text-align: center;
+}
+.line {
+  margin: 0; padding: 0.32em 0;
+  font-size: 1em;
+  line-height: 1.28; font-weight: 500; letter-spacing: -0.015em;
+  text-wrap: pretty; opacity: 0.1;
+}
+
+.done {
+  position: absolute; inset: 0; z-index: 2;
+  display: grid; place-content: center; justify-items: center; gap: 20px; text-align: center;
+  background: rgba(255,255,255,0.94);
+}
+.done h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.5rem, 8vw, 4rem); margin: 0; }
+.done p { margin: 0; color: var(--muted); }
+.row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+.btn {
+  border: 1px solid var(--ink); background: var(--ink); color: #fff;
+  border-radius: 999px; min-height: 48px; padding: 0 24px; font-weight: 500; font-size: 1rem; white-space: nowrap;
+}
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn:hover { border-color: var(--accent); background: var(--accent); color: #fff; }
+
+.controls { display: flex; align-items: center; gap: 20px; padding-block: 14px 10px; border-top: 1px solid var(--line); }
+.controls .btn { min-width: 8.5rem; }
+.speed { flex: 1; min-width: 0; display: grid; gap: 6px; }
+.speed .cap { display: flex; justify-content: space-between; gap: 12px; font-size: 0.8125rem; color: var(--muted); }
+.speed .ends { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-top: -4px; }
+.speed output { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+input[type=range] {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 44px; margin: 0; background: transparent; cursor: pointer;
+  --fill: 50%;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 4px;
+  background: linear-gradient(to right, var(--ink) var(--fill), var(--line) var(--fill));
+}
+input[type=range]::-moz-range-track { height: 4px; border-radius: 4px; background: var(--line); }
+input[type=range]::-moz-range-progress { height: 4px; border-radius: 4px; background: var(--ink); }
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); border: 0; margin-top: -10px;
+}
+input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--ink); border: 0; }
+@media (max-width: 520px) {
+  .controls { gap: 14px; }
+  .controls .btn { min-width: 0; padding-inline: 16px; }
+}
+
+/* ---------- Screen sizes ---------- */
+/* Tablet and laptop */
+@media (min-width: 700px) {
+  .track { font-size: clamp(2.25rem, 4.2vw, 3rem); }
+  .controls { gap: 28px; }
+  .speed { max-width: 30rem; }
+}
+/* Large monitor */
+@media (min-width: 1400px) {
+  .track { font-size: clamp(3rem, 2.6vw, 4rem); }
+  .reader { padding-left: max(48px, env(safe-area-inset-left, 0px)); padding-right: max(48px, env(safe-area-inset-right, 0px)); }
+  .speed { max-width: 36rem; }
+}
+/* Small phone: controls stack, button spans the row */
+@media (max-width: 440px) {
+  .controls { flex-wrap: wrap; gap: 4px 0; padding-block: 8px 6px; }
+  .speed { order: 1; flex: 1 1 100%; }
+  .controls .btn { order: 2; flex: 1 1 100%; }
+  .now .n { max-width: 55vw; margin-left: auto; }
+}
+/* Landscape phone: keep the text area as tall as possible */
+@media (max-height: 560px) {
+  .track { font-size: clamp(1.25rem, 6.5vh, 2rem); }
+  .bar { padding-bottom: 2px; }
+  .now .s { display: none; }
+  .controls { flex-wrap: nowrap; gap: 20px; padding-block: 4px; }
+  .speed, .controls .btn { order: 0; flex: initial; }
+  .speed { flex: 1; min-width: 0; }
+  .controls .btn { min-width: 8rem; min-height: 44px; }
+  .speed .ends { display: none; }
+  input[type=range] { height: 36px; }
+}
+</style>
+
+<main class="home" id="home">
+  <p class="brand">Speaking practice</p>
+  <h1>Fast and Clear</h1>
+  <p class="lead">Darajangizni va mavzuni tanlang. Opa mashqni boshlab beradi, matn esa silliq yuqoriga suriladi. Siz uni ovoz chiqarib o'qiysiz.</p>
+  <div class="levels" id="levels" role="group" aria-label="Daraja"></div>
+  <ul class="topics" id="topics"></ul>
+</main>
+
+<section class="reader" id="reader" hidden aria-label="O'qish">
+  <div class="bar">
+    <button class="link" id="back" type="button">Mavzular</button>
+    <div class="now"><div class="n" id="rname"></div><div class="s" id="rstatus"></div></div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+  <div class="stage" id="stage">
+    <div class="track" id="track"></div>
+  </div>
+  <div class="done" id="done" hidden>
+    <h2>Tugadi</h2>
+    <p>Yaxshi o'qidingiz. Yana bir bor urinib ko'ring.</p>
+    <div class="row">
+      <button class="btn" id="again" type="button">Qayta o'qish</button>
+      <button class="btn ghost" id="other" type="button">Boshqa mavzu</button>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="toggle" type="button">To'xtatish</button>
+    <div class="speed">
+      <div class="cap"><label for="speed">Tezlik</label><output id="speedOut" for="speed"></output></div>
+      <input id="speed" type="range" min="30" max="250" step="5" value="80">
+      <div class="ends"><span>Sekin</span><span>Tez</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* Set this to an audio file path or data: URI to use a recorded voice instead of browser speech. */
+var INTRO_AUDIO = "";
+var INTRO_TEXT = "Speak fast and clear.";
+
+var TOPICS = [
+ {
+  "title": "When You Feel Sad",
+  "uz": "Qayg'uli paytda",
+  "t": {
+   "A1": [
+    "Hello, my friend.",
+    "I see you.",
+    "Today you feel sad.",
+    "That is okay.",
+    "Sad days come.",
+    "Sad days go.",
+    "You are not bad.",
+    "You are not weak.",
+    "You are a person.",
+    "A good person.",
+    "Take a deep breath.",
+    "In, and out.",
+    "Say with me:",
+    "I am okay.",
+    "Tomorrow is new.",
+    "You are strong.",
+    "I am here."
+   ],
+   "A2": [
+    "Hi, my dear friend.",
+    "Today feels very heavy.",
+    "Maybe nothing went well.",
+    "Maybe you cried.",
+    "That is okay.",
+    "Feelings are not weak.",
+    "They are just feelings.",
+    "Like rain, they pass.",
+    "Last week was hard,",
+    "but you got through.",
+    "You were strong then.",
+    "You are strong now.",
+    "Please be gentle today.",
+    "Make a warm drink.",
+    "Call someone you trust.",
+    "The sun will come.",
+    "I believe in you."
+   ],
+   "B1": [
+    "I don't know exactly",
+    "what happened today.",
+    "But I can tell",
+    "you're hurting right now.",
+    "It's okay to feel",
+    "sad without a reason.",
+    "You don't have to",
+    "explain it to anyone.",
+    "Feelings aren't problems",
+    "that need quick fixes.",
+    "Sometimes you just need",
+    "to let them be.",
+    "Let yourself cry",
+    "if you want to.",
+    "Tears can clean",
+    "a heavy heart.",
+    "You've survived bad days",
+    "before, haven't you?",
+    "And you'll survive this.",
+    "Be patient with yourself.",
+    "Light will come back."
+   ],
+   "B2": [
+    "Sadness isn't a flaw,",
+    "it's a signal.",
+    "Your mind is saying",
+    "something needs attention.",
+    "Maybe you're grieving",
+    "something you lost.",
+    "Maybe you're simply",
+    "overwhelmed by everything.",
+    "Whatever the reason,",
+    "you don't owe anyone",
+    "a quick recovery.",
+    "Healing rarely follows",
+    "a schedule.",
+    "Allow yourself to feel",
+    "it without judgment.",
+    "Pretending to be fine",
+    "is exhausting.",
+    "Be honest, at least,",
+    "with yourself tonight.",
+    "This heaviness will pass,",
+    "though it feels endless."
+   ]
+  }
+ },
+ {
+  "title": "You Are Not Alone",
+  "uz": "Siz yolg'iz emassiz",
+  "t": {
+   "A1": [
+    "You are not alone.",
+    "Many people feel this.",
+    "I feel this too.",
+    "Your friends love you.",
+    "Your family loves you.",
+    "Call a friend today.",
+    "Say hello to someone.",
+    "They want to talk.",
+    "You are important.",
+    "You matter.",
+    "People need you.",
+    "Do not hide.",
+    "Open the door.",
+    "Someone is there.",
+    "You are not alone."
+   ],
+   "A2": [
+    "You are not alone,",
+    "even when lonely.",
+    "Many people around you",
+    "feel lonely sometimes.",
+    "They don't say it.",
+    "Send a message today.",
+    "Write, I miss you.",
+    "You'll make someone smile.",
+    "Someone thinks of you.",
+    "Right now, maybe.",
+    "Believe it, please.",
+    "You are not alone,",
+    "and you never were."
+   ],
+   "B1": [
+    "Loneliness can be loud,",
+    "even in a crowd.",
+    "If you feel that",
+    "right now, listen:",
+    "You are not broken.",
+    "Not a burden either.",
+    "Most people are carrying",
+    "something heavy too.",
+    "They just hide it",
+    "behind a smile.",
+    "Maybe you could",
+    "be the first one",
+    "to say I'm struggling.",
+    "You might be surprised",
+    "how many people care.",
+    "Reach out today.",
+    "Even a short message",
+    "can change your evening.",
+    "And if nobody answers,",
+    "I'm still here."
+   ],
+   "B2": [
+    "Isolation convinces us",
+    "that we're uniquely broken.",
+    "It lies to us.",
+    "In reality, nearly everyone",
+    "has felt unseen",
+    "at some point.",
+    "The difference is",
+    "who admits it.",
+    "Opening up takes courage,",
+    "yet it often brings",
+    "unexpected relief.",
+    "Think of one person",
+    "you could trust.",
+    "You don't need",
+    "perfect words.",
+    "Something simple works:",
+    "I've been struggling.",
+    "Chances are, they'll answer",
+    "with warmth, not judgment.",
+    "And you'll remember",
+    "you were never",
+    "truly alone."
+   ]
+  }
+ },
+ {
+  "title": "Be Proud of Yourself",
+  "uz": "O'zingiz bilan faxrlaning",
+  "t": {
+   "A1": [
+    "Look at you.",
+    "You are here.",
+    "You get up.",
+    "You try every day.",
+    "That is big.",
+    "You learn English.",
+    "That is brave.",
+    "Every word counts.",
+    "You speak, you grow.",
+    "Proud of you.",
+    "Say it loud:",
+    "I am proud.",
+    "I am learning.",
+    "I am doing well.",
+    "Good job today."
+   ],
+   "A2": [
+    "Think about last year.",
+    "You could not speak.",
+    "You were afraid, right?",
+    "Now you are here.",
+    "You open this page.",
+    "You read out loud.",
+    "That takes courage.",
+    "Many people never try.",
+    "But you tried today.",
+    "Be proud of that.",
+    "I am proud too.",
+    "Say it to yourself:",
+    "I did well today.",
+    "Tomorrow, do it again."
+   ],
+   "B1": [
+    "Have you noticed",
+    "how far you've come?",
+    "A year ago,",
+    "you couldn't say",
+    "a full sentence.",
+    "Today, you're reading",
+    "out loud, in English.",
+    "That didn't happen",
+    "by accident.",
+    "It happened because",
+    "you kept showing up,",
+    "even on bad days.",
+    "Don't ignore that.",
+    "Give yourself credit.",
+    "You've earned it.",
+    "I'm genuinely proud",
+    "of your effort."
+   ],
+   "B2": [
+    "Take a moment to",
+    "acknowledge your progress.",
+    "Not the perfect version",
+    "you imagine someday,",
+    "but the real one",
+    "sitting here today.",
+    "You've been practicing",
+    "a difficult skill,",
+    "often without applause.",
+    "That requires discipline,",
+    "not just talent.",
+    "Every awkward sentence",
+    "has built something",
+    "inside you: confidence.",
+    "You can't feel it,",
+    "but others see it.",
+    "So please, stop",
+    "downplaying your effort.",
+    "You've earned",
+    "a moment of pride."
+   ]
+  }
+ },
+ {
+  "title": "Don't Give Up",
+  "uz": "Taslim bo'lmang",
+  "t": {
+   "A1": [
+    "Do not stop.",
+    "Not today.",
+    "It is hard.",
+    "I know.",
+    "But you can.",
+    "One more try.",
+    "Just one more.",
+    "Learning is slow.",
+    "That is normal.",
+    "Every day, a little.",
+    "A little is good.",
+    "You are close.",
+    "Really close.",
+    "Keep going.",
+    "Keep going, friend."
+   ],
+   "A2": [
+    "You want to quit.",
+    "I understand that.",
+    "You worked so hard,",
+    "and nothing changed yet.",
+    "It feels unfair.",
+    "But look closer.",
+    "You know more words.",
+    "You speak better now.",
+    "Change is quiet.",
+    "It grows like trees.",
+    "You cannot see roots,",
+    "but they are growing.",
+    "Please do not quit.",
+    "Rest if you must,",
+    "but come back tomorrow."
+   ],
+   "B1": [
+    "If you feel like",
+    "giving up today,",
+    "listen to me first.",
+    "Progress is never straight.",
+    "There will be days",
+    "when you feel stuck.",
+    "That doesn't mean",
+    "you're failing.",
+    "It means you're human.",
+    "Think about a baby.",
+    "She falls many times",
+    "before she walks.",
+    "Nobody laughs at her.",
+    "Nobody says she's hopeless.",
+    "Treat yourself the same.",
+    "Fall, get up, repeat.",
+    "You're closer than",
+    "you think you are."
+   ],
+   "B2": [
+    "There's a moment",
+    "in every challenge",
+    "when quitting looks",
+    "reasonable, even wise.",
+    "Usually, that's exactly",
+    "when growth is happening.",
+    "The discomfort you feel",
+    "means you are stretching.",
+    "Nobody improves",
+    "while staying comfortable.",
+    "You don't have to",
+    "feel motivated today.",
+    "Motivation comes and goes.",
+    "Discipline is showing up",
+    "anyway, even for",
+    "ten quiet minutes.",
+    "Persist, and one day,",
+    "you'll look back and",
+    "barely recognize yourself."
+   ]
+  }
+ },
+ {
+  "title": "When You Are Tired",
+  "uz": "Charchagan paytda",
+  "t": {
+   "A1": [
+    "You are tired.",
+    "Your body says stop.",
+    "Okay, stop.",
+    "Sit down.",
+    "Close your eyes.",
+    "Breathe slowly.",
+    "Drink some tea.",
+    "Rest is good.",
+    "Rest is not lazy.",
+    "You work hard.",
+    "You need sleep.",
+    "Sleep well tonight.",
+    "Tomorrow you feel better.",
+    "Good night, friend."
+   ],
+   "A2": [
+    "You have worked hard.",
+    "Your head is full.",
+    "Your day was long.",
+    "Nobody said thank you.",
+    "I will say it:",
+    "Thank you for trying.",
+    "Now, slow down.",
+    "Put your phone away.",
+    "Wash your face.",
+    "Wear soft clothes.",
+    "Breathe in slowly,",
+    "breathe out slowly.",
+    "You don't need more.",
+    "Tonight, just rest.",
+    "Tomorrow will be lighter."
+   ],
+   "B1": [
+    "You've been running",
+    "for so long.",
+    "No wonder you're tired.",
+    "You don't have to",
+    "be productive today.",
+    "You don't have to",
+    "prove anything to anyone.",
+    "Rest isn't a reward",
+    "you must earn.",
+    "It's something you deserve.",
+    "Turn off the lights.",
+    "Let your shoulders drop.",
+    "Breathe in slowly.",
+    "If your mind races,",
+    "just watch your thoughts.",
+    "They will pass by.",
+    "Tomorrow can wait."
+   ],
+   "B2": [
+    "Exhaustion isn't always",
+    "about lack of sleep.",
+    "Sometimes it comes from",
+    "carrying too much",
+    "for too long.",
+    "Expectations, duties,",
+    "unspoken worries.",
+    "If that's you tonight,",
+    "give yourself permission",
+    "to put it down.",
+    "The world will continue",
+    "without your effort",
+    "for a few hours.",
+    "Resting isn't quitting;",
+    "it's how you continue.",
+    "Close your eyes,",
+    "unclench your jaw,",
+    "and breathe deeply.",
+    "You've done enough today."
+   ]
+  }
+ },
+ {
+  "title": "A New Morning",
+  "uz": "Yangi tong",
+  "t": {
+   "A1": [
+    "Good morning, friend.",
+    "A new day starts.",
+    "Open the window.",
+    "See the sun.",
+    "Feel the air.",
+    "Today is new.",
+    "Yesterday is gone.",
+    "Today is yours.",
+    "Make your tea.",
+    "Smile a little.",
+    "Say it now:",
+    "Today is good.",
+    "I can do it.",
+    "Let us start."
+   ],
+   "A2": [
+    "A new day begins.",
+    "Yesterday is finished.",
+    "You cannot change it.",
+    "But today is empty.",
+    "It waits for you.",
+    "Wash, smile, and stretch.",
+    "Drink some water.",
+    "Then say to yourself:",
+    "Today I will try.",
+    "I will learn something.",
+    "I will be kind.",
+    "I will speak English.",
+    "Even a little bit.",
+    "Good morning, you."
+   ],
+   "B1": [
+    "Every morning gives you",
+    "a small second chance.",
+    "It doesn't matter",
+    "how yesterday went.",
+    "Maybe you made mistakes.",
+    "Maybe you wasted time.",
+    "Today is untouched.",
+    "You can write",
+    "anything on this page.",
+    "Start with something small:",
+    "stretch, drink water,",
+    "open the window.",
+    "Then name one thing",
+    "you're looking forward to.",
+    "Even a tiny thing,",
+    "like a good coffee,",
+    "is enough to begin."
+   ],
+   "B2": [
+    "However yesterday ended,",
+    "this morning is blank,",
+    "a canvas waiting quietly.",
+    "You can't rewrite",
+    "the past, but you",
+    "can shape what's next.",
+    "Start gently,",
+    "with no big promises.",
+    "Perhaps just decide",
+    "on one meaningful thing",
+    "you'll do today.",
+    "Something that future you",
+    "will thank you for.",
+    "Take a deep breath,",
+    "feel the morning light,",
+    "and begin, one",
+    "step at a time."
+   ]
+  }
+ },
+ {
+  "title": "Your Own Pace",
+  "uz": "O'z sur'atingizda",
+  "t": {
+   "A1": [
+    "You are slow?",
+    "That is fine.",
+    "Others are fast.",
+    "So what?",
+    "You are you.",
+    "You have your road.",
+    "Your road is yours.",
+    "Walk slowly.",
+    "Walk happy.",
+    "A turtle wins too.",
+    "Do not look around.",
+    "Look at yourself.",
+    "You are growing.",
+    "Slowly, but well."
+   ],
+   "A2": [
+    "Don't compare yourself.",
+    "Your friend speaks well.",
+    "Your cousin has money.",
+    "Someone is always faster.",
+    "But you don't know",
+    "their whole story.",
+    "They have bad days.",
+    "You have your road.",
+    "Your road is different.",
+    "Every plant grows",
+    "in its own time.",
+    "Flowers don't hurry.",
+    "Neither should you.",
+    "Walk your own way."
+   ],
+   "B1": [
+    "Feeling behind is common.",
+    "Social media shows",
+    "everyone's best moments.",
+    "You see their success,",
+    "but not their struggle.",
+    "You compare your struggle",
+    "with their highlights.",
+    "That race isn't fair.",
+    "Your timeline is yours.",
+    "Some people bloom early,",
+    "others bloom later.",
+    "Neither is better.",
+    "What matters is that",
+    "you keep growing.",
+    "So take your time.",
+    "You're exactly where",
+    "you need to be."
+   ],
+   "B2": [
+    "We often measure ourselves",
+    "against people whose",
+    "lives differ entirely.",
+    "Different starting points,",
+    "different resources,",
+    "different challenges.",
+    "Comparison like that",
+    "is rarely accurate,",
+    "and almost never kind.",
+    "Your journey has",
+    "its own rhythm.",
+    "Maybe slower, maybe",
+    "winding, but real.",
+    "Progress that feels",
+    "invisible is still",
+    "progress, nonetheless.",
+    "Trust your timing,",
+    "and keep moving."
+   ]
+  }
+ },
+ {
+  "title": "When You Feel Afraid",
+  "uz": "Qo'rqqan paytda",
+  "t": {
+   "A1": [
+    "You feel afraid.",
+    "It is okay.",
+    "Everyone feels fear.",
+    "Brave people too.",
+    "Fear is a feeling.",
+    "It is not you.",
+    "Put your hand here.",
+    "Feel your heart.",
+    "Boom, boom, boom.",
+    "It is slow now.",
+    "You are safe.",
+    "Safe, right now.",
+    "Take one step.",
+    "Just one.",
+    "You can do it."
+   ],
+   "A2": [
+    "You are scared today.",
+    "Maybe about the future.",
+    "Maybe about speaking.",
+    "Your heart is fast.",
+    "That is normal.",
+    "Fear means something",
+    "is important to you.",
+    "Don't fight it.",
+    "Say, I am scared,",
+    "but I will try.",
+    "Count to five slowly.",
+    "Put your feet down.",
+    "Feel the floor.",
+    "You are safe here.",
+    "Now take one step."
+   ],
+   "B1": [
+    "Maybe something scary",
+    "is waiting for you.",
+    "A test, a talk,",
+    "a big decision.",
+    "Your mind is imagining",
+    "the worst outcomes.",
+    "But those are just",
+    "thoughts, not facts.",
+    "Courage doesn't mean",
+    "having no fear.",
+    "It means moving forward",
+    "while you're afraid.",
+    "You've done hard things",
+    "before, remember?",
+    "Take a slow breath.",
+    "Do the next thing.",
+    "I believe you can."
+   ],
+   "B2": [
+    "Fear tends to exaggerate.",
+    "It turns small risks",
+    "into imagined disasters.",
+    "Notice what it's saying,",
+    "and then ask yourself:",
+    "Is this actually true?",
+    "Often, the honest answer",
+    "is, I'm not sure.",
+    "Uncertainty isn't danger.",
+    "Remember a time",
+    "you doubted yourself",
+    "and surprised yourself.",
+    "You handled it,",
+    "didn't you?",
+    "Courage isn't loud.",
+    "Sometimes it's simply",
+    "taking one step",
+    "while your hands shake."
+   ]
+  }
+ },
+ {
+  "title": "Love Yourself",
+  "uz": "O'zingizni seving",
+  "t": {
+   "A1": [
+    "Be kind to you.",
+    "You are a friend.",
+    "Be a good friend",
+    "to yourself.",
+    "Say good things.",
+    "Say nice words.",
+    "Look in the mirror.",
+    "Say, hello, you.",
+    "I like you.",
+    "You are enough.",
+    "Just like this.",
+    "You are enough."
+   ],
+   "A2": [
+    "You are very hard",
+    "on yourself, I think.",
+    "You never praise yourself.",
+    "You're kind to others.",
+    "Be kind to yourself.",
+    "You are human too.",
+    "Everyone makes mistakes.",
+    "That does not change",
+    "your value at all.",
+    "Look in the mirror.",
+    "Smile, even a little.",
+    "Say, I accept you.",
+    "It sounds strange,",
+    "but it helps.",
+    "Try it."
+   ],
+   "B1": [
+    "Would you speak",
+    "to a friend",
+    "the way you speak",
+    "to yourself?",
+    "Probably not.",
+    "You'd be gentle.",
+    "You'd say, it's okay,",
+    "you did your best.",
+    "So why not offer",
+    "yourself the same kindness?",
+    "Self-love isn't selfish.",
+    "It's the foundation",
+    "of everything else.",
+    "Start with small things:",
+    "eat well, sleep enough,",
+    "and forgive yourself",
+    "for yesterday's mistakes.",
+    "You deserve that care."
+   ],
+   "B2": [
+    "Self-love isn't about",
+    "believing you're perfect.",
+    "It's about accepting",
+    "your flaws without",
+    "turning them into",
+    "weapons against yourself.",
+    "You can improve,",
+    "and still deserve",
+    "kindness right now.",
+    "Those two ideas",
+    "aren't opposites.",
+    "Speak to yourself",
+    "the way a wise",
+    "friend would speak:",
+    "honestly, but warmly.",
+    "Over time, that voice",
+    "becomes your own.",
+    "And it changes everything."
+   ]
+  }
+ },
+ {
+  "title": "Small Steps",
+  "uz": "Kichik qadamlar",
+  "t": {
+   "A1": [
+    "Small steps count.",
+    "One word today.",
+    "Two words tomorrow.",
+    "Ten words soon.",
+    "Small is good.",
+    "Small is big.",
+    "Do one thing.",
+    "Just one thing.",
+    "Open a book.",
+    "Read one page.",
+    "Say one sentence.",
+    "That is enough.",
+    "You did it.",
+    "Well done, friend."
+   ],
+   "A2": [
+    "Big dreams are scary.",
+    "So make them small.",
+    "Don't learn English",
+    "in one month.",
+    "Learn five words today.",
+    "Say them out loud.",
+    "Use them in sentences.",
+    "Tomorrow, five more.",
+    "In a month,",
+    "you will have one",
+    "hundred and fifty words.",
+    "Small steps add up.",
+    "You can start now.",
+    "You already started."
+   ],
+   "B1": [
+    "Big changes seem impossible",
+    "when you look at",
+    "the whole mountain.",
+    "So look at",
+    "the next step.",
+    "Today, that might be",
+    "reading this text.",
+    "Tomorrow, it might be",
+    "talking to a stranger.",
+    "Next month, you could",
+    "have a real conversation.",
+    "None of these steps",
+    "feels huge by itself.",
+    "But together, they change",
+    "your whole life.",
+    "Just keep walking."
+   ],
+   "B2": [
+    "We overestimate what",
+    "we achieve daily,",
+    "and underestimate what",
+    "a year can bring.",
+    "That's why tiny,",
+    "consistent actions matter.",
+    "Ten minutes of speaking,",
+    "every single day,",
+    "beats one exhausting",
+    "weekend of effort.",
+    "Don't wait until",
+    "you feel ready.",
+    "Readiness usually follows",
+    "action, not the reverse.",
+    "So begin imperfectly,",
+    "improve as you go.",
+    "A year from now,",
+    "you'll be grateful",
+    "you started today."
+   ]
+  }
+ }
+];
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var home = $("home"), reader = $("reader"), stage = $("stage"), track = $("track");
+  var bar = $("bar"), rname = $("rname"), rstatus = $("rstatus"), done = $("done");
+  var toggle = $("toggle"), speed = $("speed"), speedOut = $("speedOut");
+
+  var S = null;        /* { topic, els, words, centers, p, state, token } */
+  var raf = 0, last = 0, token = 0, introTimer = 0;
+  var wpm = 80;
+  try { var saved = parseInt(localStorage.getItem("fc-wpm"), 10); if (saved >= 30 && saved <= 250) wpm = saved; } catch (e) {}
+
+  var LEVELS = [
+    { code: "A1", lab: "Boshlang'ich" },
+    { code: "A2", lab: "Elementar" },
+    { code: "B1", lab: "O'rta" },
+    { code: "B2", lab: "O'rta-yuqori" }
+  ];
+  var LEVEL = "A1";
+  try { var sl = localStorage.getItem("fc-level"); if (sl && TOPICS[0].t[sl]) LEVEL = sl; } catch (e) {}
+
+  var levelsEl = $("levels"), list = $("topics");
+
+  function renderLevels() {
+    levelsEl.innerHTML = "";
+    LEVELS.forEach(function (lv) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "level";
+      b.setAttribute("aria-pressed", lv.code === LEVEL ? "true" : "false");
+      b.innerHTML = '<span class="code"></span><span class="lab"></span>';
+      b.querySelector(".code").textContent = lv.code;
+      b.querySelector(".lab").textContent = lv.lab;
+      b.addEventListener("click", function () {
+        LEVEL = lv.code;
+        try { localStorage.setItem("fc-level", LEVEL); } catch (e) {}
+        renderLevels(); renderTopics();
+      });
+      levelsEl.appendChild(b);
+    });
+  }
+
+  function renderTopics() {
+    list.innerHTML = "";
+    TOPICS.forEach(function (t, i) {
+      var lines = t.t[LEVEL];
+      var words = lines.join(" ").split(/\s+/).length;
+      var li = document.createElement("li");
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "topic";
+      b.innerHTML = '<span class="t"><span class="name"></span><span class="uz"></span></span><span class="meta"></span>';
+      b.querySelector(".name").textContent = t.title;
+      b.querySelector(".uz").textContent = t.uz;
+      b.querySelector(".meta").textContent = lines.length + " qator \u00b7 " + Math.max(1, Math.round(words / 80)) + " daq";
+      b.addEventListener("click", function () { openTopic(i); });
+      li.appendChild(b); list.appendChild(li);
+    });
+  }
+  renderLevels(); renderTopics();
+
+  /* Speed control */
+  function paintSpeed() {
+    speed.value = wpm;
+    speedOut.textContent = wpm + " so'z/daq";
+    var mn = +speed.min, mx = +speed.max, pct = ((wpm - mn) / (mx - mn)) * 100;
+    speed.style.setProperty("--fill", pct + "%");
+  }
+  speed.addEventListener("input", function () {
+    wpm = parseInt(speed.value, 10);
+    paintSpeed();
+    try { localStorage.setItem("fc-wpm", String(wpm)); } catch (e) {}
+  });
+  paintSpeed();
+
+  /* Intro phrase by the voice */
+  function pickVoice() {
+    var vs = [];
+    try { vs = window.speechSynthesis.getVoices() || []; } catch (e) {}
+    var en = vs.filter(function (v) { return /^en/i.test(v.lang); });
+    var pref = /(samantha|aria|jenny|zira|karen|moira|susan|serena|female|google us english|google uk english female)/i;
+    for (var i = 0; i < en.length; i++) if (pref.test(en[i].name)) return en[i];
+    return en[0] || null;
+  }
+  function intro(done) {
+    var fired = false;
+    function go() { if (fired) return; fired = true; clearTimeout(introTimer); done(); }
+    if (INTRO_AUDIO) {
+      try {
+        var a = new Audio(INTRO_AUDIO);
+        a.onended = go; a.onerror = go;
+        var pr = a.play(); if (pr && pr.catch) pr.catch(go);
+      } catch (e) { go(); return; }
+      introTimer = setTimeout(go, 7000);
+      return;
+    }
+    if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
+      introTimer = setTimeout(go, 600); return;
+    }
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(INTRO_TEXT);
+      u.lang = "en-US"; u.rate = 0.92; u.pitch = 1.05;
+      var v = pickVoice(); if (v) { u.voice = v; u.lang = v.lang; }
+      u.onend = go; u.onerror = go;
+      window.speechSynthesis.speak(u);
+    } catch (e) { go(); return; }
+    introTimer = setTimeout(go, 5000);
+  }
+  function stopVoice() {
+    clearTimeout(introTimer);
+    try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) {}
+  }
+
+  /* Reader */
+  function setState(st) {
+    S.state = st;
+    var label = { intro: "Tinglang", play: "Ovoz chiqarib o'qing", pause: "To'xtatildi", done: "Tugadi" }[st];
+    rstatus.textContent = label;
+    toggle.textContent = st === "pause" ? "Davom etish" : "To'xtatish";
+    toggle.disabled = st === "intro" || st === "done";
+    toggle.style.opacity = toggle.disabled ? "0.35" : "1";
+    done.hidden = st !== "done";
+  }
+
+  /* Reading position is stored as a fractional line index so it survives a re-wrap. */
+  function posToP(pos, c, avg) {
+    var n = c.length, off = c[0] + pos;
+    if (n < 2 || off <= c[0]) return 0;
+    if (off >= c[n - 1]) return n - 1 + (off - c[n - 1]) / avg;
+    var i = 0;
+    while (i < n - 2 && off >= c[i + 1]) i++;
+    return i + (off - c[i]) / (c[i + 1] - c[i]);
+  }
+  function pToPos(p, c, avg) {
+    var n = c.length;
+    if (n < 2 || p <= 0) return 0;
+    if (p >= n - 1) return c[n - 1] - c[0] + (p - (n - 1)) * avg;
+    var i = Math.floor(p);
+    return c[i] - c[0] + (c[i + 1] - c[i]) * (p - i);
+  }
+
+  function layout() {
+    if (!S) return;
+    var keep = S.centers ? posToP(S.pos, S.centers, S.avgLine) : 0;
+    S.H = stage.clientHeight;
+    S.centers = S.els.map(function (el) { return el.offsetTop + el.offsetHeight / 2; });
+    var n = S.els.length, c = S.centers, sum = 0;
+    for (var i = 0; i < n - 1; i++) sum += S.words[i];
+    S.span = c[n - 1] - c[0];
+    S.pxPerWord = sum > 0 ? S.span / sum : 20;
+    S.end = S.span + S.pxPerWord * S.words[n - 1];
+    S.avgLine = n > 1 ? S.span / (n - 1) : 40;
+    S.pos = Math.min(S.end, pToPos(keep, c, S.avgLine));
+    render();
+  }
+
+  function render() {
+    if (!S || !S.centers) return;
+    var n = S.els.length, c = S.centers, H = S.H;
+    var focus = H * 0.42;
+    var off = c[0] + S.pos;
+    track.style.transform = "translate3d(0," + (focus - off).toFixed(1) + "px,0)";
+    var p = posToP(S.pos, c, S.avgLine);
+    for (var k = 0; k < n; k++) {
+      var d = Math.abs(k - p);
+      var o = Math.max(0.1, 1 - 0.55 * d);
+      o = Math.round(o * 100) / 100;
+      if (S.ops[k] !== o) { S.ops[k] = o; S.els[k].style.opacity = o; }
+    }
+    bar.style.width = Math.max(0, Math.min(1, S.pos / S.end)) * 100 + "%";
+  }
+
+  function tick(ts) {
+    raf = requestAnimationFrame(tick);
+    if (!S) return;
+    var dt = Math.min(0.05, (ts - last) / 1000); last = ts;
+    if (S.state !== "play" || !S.centers) return;
+    /* constant pixel speed for the whole text: words per second times pixels per word */
+    S.pos += dt * (wpm / 60) * S.pxPerWord;
+    if (S.pos >= S.end) { S.pos = S.end; render(); setState("done"); return; }
+    render();
+  }
+
+  function begin() {
+    var my = ++token;
+    S.token = my; S.pos = 0; S.ops = [];
+    setState("intro");
+    layout();
+    intro(function () { if (S && S.token === my && S.state === "intro") setState("play"); });
+  }
+
+  function openTopic(i) {
+    var t = TOPICS[i], lines = t.t[LEVEL];
+    track.innerHTML = "";
+    var els = lines.map(function (txt) {
+      var p = document.createElement("p"); p.className = "line"; p.textContent = txt; track.appendChild(p); return p;
+    });
+    S = { topic: t, els: els, words: lines.map(function (s) { return s.split(/\s+/).length; }), centers: null, pos: 0, span: 0, end: 1, pxPerWord: 20, avgLine: 40, state: "intro", token: 0, ops: [], H: 0 };
+    rname.textContent = t.title + " \u00b7 " + LEVEL;
+    home.hidden = true; reader.hidden = false; document.body.classList.add("locked");
+    window.scrollTo(0, 0);
+    last = performance.now();
+    cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
+    begin();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  }
+
+  function closeReader() {
+    stopVoice(); token++;
+    cancelAnimationFrame(raf); S = null;
+    reader.hidden = true; home.hidden = false; document.body.classList.remove("locked");
+  }
+
+  function togglePause() {
+    if (!S) return;
+    if (S.state === "play") setState("pause");
+    else if (S.state === "pause") setState("play");
+  }
+
+  toggle.addEventListener("click", function (e) { e.stopPropagation(); togglePause(); });
+  stage.addEventListener("click", togglePause);
+  $("back").addEventListener("click", closeReader);
+  $("other").addEventListener("click", closeReader);
+  $("again").addEventListener("click", function () { stopVoice(); begin(); });
+  var relayout = 0;
+  function scheduleLayout() {
+    if (relayout) return;
+    relayout = requestAnimationFrame(function () { relayout = 0; layout(); });
+  }
+  window.addEventListener("resize", scheduleLayout);
+  window.addEventListener("orientationchange", scheduleLayout);
+  if (window.ResizeObserver) new ResizeObserver(scheduleLayout).observe(stage);
+  document.addEventListener("keydown", function (e) {
+    if (!S) return;
+    if (e.key === "Escape") closeReader();
+    else if ((e.key === " " || e.code === "Space") && e.target === document.body) { e.preventDefault(); togglePause(); }
+  });
+  if (window.speechSynthesis && window.speechSynthesis.addEventListener) {
+    window.speechSynthesis.addEventListener("voiceschanged", function () {});
+  }
+})();
+</script>
+
+</body></html>
