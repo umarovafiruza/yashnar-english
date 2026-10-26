@@ -61,8 +61,116 @@
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 20px 24px;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   align-items: center;
+}
+
+/* Voice Quality & Preview Card */
+.lis-voice-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+@media (min-width: 780px) {
+  .lis-voice-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.lis-voice-info {
+  max-width: 34rem;
+}
+
+.lis-voice-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #10753f;
+  background: #eef8f2;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+.voice-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10753f;
+  box-shadow: 0 0 0 2px rgba(16, 117, 63, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 117, 63, 0.4); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 117, 63, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 117, 63, 0); }
+}
+
+.lis-voice-title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.lis-voice-desc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.lis-voice-previews {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.voice-preview-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-voice-preview {
+  background: #f4f5f7;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-voice-preview:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.btn-voice-preview.playing {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 /* Filter Controls */

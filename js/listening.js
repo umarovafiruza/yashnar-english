@@ -200,19 +200,112 @@
     }
   }
 
+  // --- Voice Preview Feature ---
+  let activePreviewAudio = null;
+  let activePreviewBtn = null;
+
+  function stopVoicePreview() {
+    if (activePreviewAudio) {
+      activePreviewAudio.pause();
+      activePreviewAudio.currentTime = 0;
+      activePreviewAudio = null;
+    }
+    if (activePreviewBtn) {
+      activePreviewBtn.classList.remove('playing');
+      const icon = activePreviewBtn.querySelector('.preview-icon');
+      if (icon) icon.textContent = '▶';
+      activePreviewBtn = null;
+    }
+  }
+
+  function initVoicePreviews() {
+    const btns = document.querySelectorAll('.btn-voice-preview');
+    btns.forEach(btn => {
+      btn.onclick = () => {
+        const voiceId = btn.dataset.voice;
+        const soundFile = `audio/preview-${voiceId}.mp3`;
+
+        // If currently playing this preview, toggle pause
+        if (activePreviewBtn === btn && activePreviewAudio && !activePreviewAudio.paused) {
+          stopVoicePreview();
+          return;
+        }
+
+        // Stop any previous preview
+        stopVoicePreview();
+
+        // Also pause main exercise player if playing
+        if (State.audioPlayer) State.audioPlayer.pause();
+
+        const a = new Audio(soundFile);
+        activePreviewAudio = a;
+        activePreviewBtn = btn;
+        btn.classList.add('playing');
+        const icon = btn.querySelector('.preview-icon');
+        if (icon) icon.textContent = '⏹';
+
+        a.onended = () => stopVoicePreview();
+        a.onerror = () => stopVoicePreview();
+        a.play().catch(e => {
+          console.warn("Could not play preview audio file:", e);
+          stopVoicePreview();
+        });
+      };
+    });
+  }
+
+  function pickBestNeuralVoice() {
+    let voices = [];
+    try {
+      voices = window.speechSynthesis.getVoices() || [];
+    } catch (e) {}
+
+    const enVoices = voices.filter(v => /^en/i.test(v.lang || v.locale));
+    if (!enVoices.length) return null;
+
+    // Prefer online/natural neural female voices
+    const neuralPref = /(natural|online|neural)/i;
+    const femalePref = /(jenny|aria|samantha|karen|serena|zoe|victoria|female|google us english|zira)/i;
+
+    const neuralFemale = enVoices.find(v => neuralPref.test(v.name) && femalePref.test(v.name));
+    if (neuralFemale) return neuralFemale;
+
+    const anyNeural = enVoices.find(v => neuralPref.test(v.name));
+    if (anyNeural) return anyNeural;
+
+    const naturalFemale = enVoices.find(v => femalePref.test(v.name));
+    if (naturalFemale) return naturalFemale;
+
+    return enVoices[0];
+  }
+
   function playWithSpeechSynthesis(text, playBtn) {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'en-US';
-    u.rate = 0.95;
+    u.rate = 0.94;
+    u.pitch = 1.0;
+
+    const v = pickBestNeuralVoice();
+    if (v) {
+      u.voice = v;
+      u.lang = v.lang;
+    }
+
+    u.onstart = () => {
+      State.isPlaying = true;
+      if (playBtn) playBtn.innerHTML = '⏸';
+    };
     u.onend = () => {
       State.isPlaying = false;
       if (playBtn) playBtn.innerHTML = '▶';
     };
+    u.onerror = () => {
+      State.isPlaying = false;
+      if (playBtn) playBtn.innerHTML = '▶';
+    };
     window.speechSynthesis.speak(u);
-    State.isPlaying = true;
-    if (playBtn) playBtn.innerHTML = '⏸';
   }
 
   // --- Render Catalog View ---
@@ -225,6 +318,8 @@
     if (runner) runner.hidden = true;
     if (results) results.hidden = true;
 
+    stopVoicePreview();
+
     // Pause audio if running
     if (State.audioPlayer) {
       State.audioPlayer.pause();
@@ -232,6 +327,7 @@
 
     renderListeningStats();
     renderExerciseCards();
+    initVoicePreviews();
   }
 
   function renderListeningStats() {
@@ -360,6 +456,7 @@
 
   // --- Start Exercise ---
   function startListeningExercise(exercise) {
+    stopVoicePreview();
     State.currentExercise = exercise;
     State.currentQuestionIdx = 0;
     State.userAnswers = new Array(exercise.questions.length).fill(null);
@@ -818,6 +915,7 @@
   function init() {
     State.history = getListeningHistory();
     initListeningEvents();
+    initVoicePreviews();
   }
 
   if (document.readyState === 'loading') {

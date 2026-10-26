@@ -13,6 +13,12 @@ window.LISTENING_PARTS = [
   { id: 6, name: "Short Story and Narrative", uz: "Qisqa Hikoya va Voqealar", desc: "Shaxsiy tajribalar, sayohatlar va qiziqarli voqealar" }
 ];
 
+window.LISTENING_VOICE_PREVIEWS = [
+  { id: "jenny", name: "Jenny (US - Tabiiy va Mayin)", file: "audio/preview-jenny.mp3", accent: "American", desc: "Tavsiya etilgan: o'quvchilar uchun iliq va tabiiy talaffuz" },
+  { id: "aria", name: "Aria (US - Aniq va Professional)", file: "audio/preview-aria.mp3", accent: "American", desc: "Ekspressiv va ravon neyron ovoz" },
+  { id: "sonia", name: "Sonia (UK - Britaniya)", file: "audio/preview-sonia.mp3", accent: "British", desc: "Klassik britancha intonatsiya va toza diksiya" }
+];
+
 window.LISTENING_EXERCISES = [
   // -------------------------------------------------------------------------
   // EXERCISE 1: Part 1 - Everyday Conversations (Level B1)
@@ -26,7 +32,7 @@ window.LISTENING_EXERCISES = [
     partUz: "Kundalik Suhbatlar",
     level: "B1",
     durationSec: 36,
-    audioFile: "audio/listening-01.wav",
+    audioFile: "audio/listening-01.mp3",
     transcript: "Good morning! Welcome to the Central Language Institute. How can I help you today? Hello! I would like to schedule a placement test and a brief consultation for the evening IELTS preparation course. Certainly! We have slots available this Thursday at four thirty in the afternoon, or Friday morning at ten o'clock. Friday morning works best for me because I work late shifts on Thursdays. Perfect. Please bring your photo ID and arrive fifteen minutes early to Room 204.",
     questions: [
       {
@@ -105,8 +111,8 @@ window.LISTENING_EXERCISES = [
     partName: "Everyday Conversations",
     partUz: "Kundalik Suhbatlar",
     level: "A2",
-    durationSec: 35,
-    audioFile: "audio/listening-02.wav",
+    durationSec: 28,
+    audioFile: "audio/listening-02.mp3",
     transcript: "Excuse me, can you tell me how many books I can borrow at one time? As a registered member, you may borrow up to six books for three weeks. If you need more time, you can renew them online twice, provided nobody else has reserved them. That is great! And is there free Wi-Fi access on the second floor? Yes, the network name is Library Guest and the password is on the notice board next to the front desk.",
     questions: [
       {
@@ -185,8 +191,8 @@ window.LISTENING_EXERCISES = [
     partName: "Monologue and Information",
     partUz: "Monolog va Ma'lumot",
     level: "B1",
-    durationSec: 37,
-    audioFile: "audio/listening-03.wav",
+    durationSec: 30,
+    audioFile: "audio/listening-03.mp3",
     transcript: "Attention all incoming international students! Welcome to Green Valley University. Our campus orientation starts promptly at nine o'clock tomorrow in the Main Auditorium. Please ensure you have completed your digital registration before entering. The cafeteria is located in Building B and serves hot lunch between eleven thirty and two PM. For emergency medical assistance, the health center in Building D operates twenty-four hours a day.",
     questions: [
       {
@@ -265,8 +271,8 @@ window.LISTENING_EXERCISES = [
     partName: "Monologue and Information",
     partUz: "Monolog va Ma'lumot",
     level: "B2",
-    durationSec: 38,
-    audioFile: "audio/listening-04.wav",
+    durationSec: 27,
+    audioFile: "audio/listening-04.mp3",
     transcript: "Welcome to the Royal Botanical Conservatory. We host over four thousand rare plant species from five continents. The Tropical Rainforest Dome is maintained at eighty-five percent humidity, so please watch your step along the stone pathways. Flash photography is strictly prohibited inside the orchid gallery to protect delicate blossoms. Guided tours depart from the greenhouse entrance every forty minutes.",
     questions: [
       {
@@ -345,8 +351,8 @@ window.LISTENING_EXERCISES = [
     partName: "Academic Discussion",
     partUz: "Akademik Muhokama",
     level: "B2",
-    durationSec: 37,
-    audioFile: "audio/listening-05.wav",
+    durationSec: 29,
+    audioFile: "audio/listening-05.mp3",
     transcript: "Professor Miller, our group analyzed urban air quality data across five major metropolitan zones. We noticed a substantial decline in particulate matter during weekends, primarily due to reduced commuter traffic. However, nitrogen dioxide levels remained surprisingly persistent near industrial hubs. We recommend installing solar powered monitoring sensors along peripheral ring roads before delivering our final report next Tuesday.",
     questions: [
       {
@@ -425,8 +431,8 @@ window.LISTENING_EXERCISES = [
     partName: "Academic Discussion",
     partUz: "Akademik Muhokama",
     level: "B2",
-    durationSec: 36,
-    audioFile: "audio/listening-06.wav",
+    durationSec: 26,
+    audioFile: "audio/listening-06.mp3",
     transcript: "After reviewing our cognitive survey results, two hundred participants completed the online questionnaire. Interestingly, sixty percent reported enhanced task productivity when listening to ambient instrumental soundscapes. However, vocal music with lyrics caused frequent attention lapses and slower reading speed. We need to standardize sample demographics before publishing our preliminary findings.",
     questions: [
       {
@@ -505,8 +511,8 @@ window.LISTENING_EXERCISES = [
     partName: "Lecture or Educational Talk",
     partUz: "Ma'ruza va Ta'limiy Nutq",
     level: "B2",
-    durationSec: 37,
-    audioFile: "audio/listening-07.wav",
+    durationSec: 27,
+    audioFile: "audio/listening-07.mp3",
     transcript: "Modern sustainable architecture increasingly incorporates green rooftop gardens into metropolitan building designs. These vegetative layers absorb up to seventy percent of stormwater runoff, significantly mitigating localized sewer flooding. Furthermore, green roofs reduce building surface temperatures by fifteen degrees Celsius in summer, lowering commercial air conditioning costs and counteracting the urban heat island effect.",
     questions: [
       {
@@ -585,8 +591,8 @@ window.LISTENING_EXERCISES = [
     partName: "Lecture or Educational Talk",
     partUz: "Ma'ruza va Ta'limiy Nutq",
     level: "C1",
-    durationSec: 38,
-    audioFile: "audio/listening-08.wav",
+    durationSec: 27,
+    audioFile: "audio/listening-08.mp3",
     transcript: "In the oceanic twilight zone, over seventy-five percent of deep sea organisms possess bioluminescence. This biochemical light is produced when the enzyme luciferase oxidizes a substrate called luciferin. Marine creatures utilize this cold emission not merely for illumination, but primarily for counter-illumination camouflage against predators, enticing prey into striking range, and species-specific courtship signals.",
     questions: [
       {
@@ -665,8 +671,8 @@ window.LISTENING_EXERCISES = [
     partName: "Opinions and Attitudes",
     partUz: "Munosabat va Fikrlar",
     level: "B1",
-    durationSec: 36,
-    audioFile: "audio/listening-09.wav",
+    durationSec: 26,
+    audioFile: "audio/listening-09.mp3",
     transcript: "While remote working offers remarkable flexibility and eliminates stressful daily commutes, several team leaders express genuine concern about weakened team cohesion. In our recent company survey, forty-five percent of employees felt slightly isolated when working entirely from home. Consequently, management is transitioning to a balanced hybrid schedule requiring two designated collaborative office days each week.",
     questions: [
       {
@@ -745,8 +751,8 @@ window.LISTENING_EXERCISES = [
     partName: "Opinions and Attitudes",
     partUz: "Munosabat va Fikrlar",
     level: "B2",
-    durationSec: 37,
-    audioFile: "audio/listening-10.wav",
+    durationSec: 28,
+    audioFile: "audio/listening-10.mp3",
     transcript: "Automotive analysts acknowledge that electric vehicles boast superior powertrain efficiency and zero tailpipe emissions. Nevertheless, prospective consumers remain hesitant due to initial purchase price disparities and limited high-speed charging infrastructure along rural corridors. Until battery recycling standards become universally adopted, skeptics argue that environmental benefits might be partially offset by mineral extraction demands.",
     questions: [
       {
@@ -826,8 +832,8 @@ window.LISTENING_EXERCISES = [
     partName: "Short Story and Narrative",
     partUz: "Qisqa Hikoya va Voqealar",
     level: "B1",
-    durationSec: 36,
-    audioFile: "audio/listening-11.wav",
+    durationSec: 25,
+    audioFile: "audio/listening-11.mp3",
     transcript: "Last autumn, while hiking through the Scottish Highlands, a sudden blanket of dense fog obscured our trail markers. We took shelter inside an abandoned stone shepherd cottage just as dusk fell. To our great surprise, an elderly local couple arrived an hour later carrying warm tea and fresh bannock bread. What began as an alarming ordeal turned into the warmest evening of our entire journey.",
     questions: [
       {
@@ -906,8 +912,8 @@ window.LISTENING_EXERCISES = [
     partName: "Short Story and Narrative",
     partUz: "Qisqa Hikoya va Voqealar",
     level: "B2",
-    durationSec: 37,
-    audioFile: "audio/listening-12.wav",
+    durationSec: 24,
+    audioFile: "audio/listening-12.mp3",
     transcript: "While helping my grandmother pack up her century-old ancestral home, we stumbled upon a padlocked cedar chest beneath dusty attic rafters. Inside lay a leatherbound maritime journal belonging to my great-grandfather from nineteen twelve. Between handwritten accounts of navigating the Pacific, he had pressed vibrant tropical leaves that still retained faint hints of green across more than a century.",
     questions: [
       {
@@ -974,3 +980,4 @@ window.LISTENING_EXERCISES = [
     ]
   }
 ];
+

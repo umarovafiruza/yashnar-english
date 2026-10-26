@@ -4,9 +4,13 @@
   "description": "Fast and Clear English learning interactive web app",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build:audio": "node scripts/generate_neural_audio.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "msedge-tts": "^2.1.1"
+  }
 }
