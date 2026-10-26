@@ -253,27 +253,61 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
       </div>
     </div>
 
-    <!-- Filters: Parts and Levels -->
-    <div class="lis-filters">
-      <!-- Parts scroll -->
-      <div class="lis-parts-scroll" role="tablist">
-        <button type="button" class="part-pill active" data-part="0">Barcha Partlar (1–6)</button>
-        <button type="button" class="part-pill" data-part="1">Part 1: Everyday Conversations</button>
-        <button type="button" class="part-pill" data-part="2">Part 2: Monologue &amp; Info</button>
-        <button type="button" class="part-pill" data-part="3">Part 3: Academic Discussion</button>
-        <button type="button" class="part-pill" data-part="4">Part 4: Lecture &amp; Talk</button>
-        <button type="button" class="part-pill" data-part="5">Part 5: Opinions &amp; Attitudes</button>
-        <button type="button" class="part-pill" data-part="6">Part 6: Story &amp; Narrative</button>
+    <!-- Apple-style Filter Hub -->
+    <div class="lis-apple-filter-hub">
+      <!-- Part Selection -->
+      <div class="filter-group">
+        <div class="filter-header">
+          <span class="filter-label-title">Mashq formati (Parts)</span>
+          <span class="filter-hint">6 ta o'quv yo'nalishi</span>
+        </div>
+        <div class="apple-segmented-track parts-track" role="tablist">
+          <button type="button" class="part-pill active" data-part="0">
+            <span class="part-pill-badge">1–6</span>
+            <span class="part-pill-text">Barchasi</span>
+          </button>
+          <button type="button" class="part-pill" data-part="1" title="Everyday Conversations">
+            <span class="part-pill-badge">P1</span>
+            <span class="part-pill-text">Kundalik Suhbat</span>
+          </button>
+          <button type="button" class="part-pill" data-part="2" title="Monologue &amp; Info">
+            <span class="part-pill-badge">P2</span>
+            <span class="part-pill-text">Monolog &amp; Info</span>
+          </button>
+          <button type="button" class="part-pill" data-part="3" title="Academic Discussion">
+            <span class="part-pill-badge">P3</span>
+            <span class="part-pill-text">Akademik Muhokama</span>
+          </button>
+          <button type="button" class="part-pill" data-part="4" title="Lecture &amp; Talk">
+            <span class="part-pill-badge">P4</span>
+            <span class="part-pill-text">Ta'limiy Ma'ruza</span>
+          </button>
+          <button type="button" class="part-pill" data-part="5" title="Opinions &amp; Attitudes">
+            <span class="part-pill-badge">P5</span>
+            <span class="part-pill-text">Fikr &amp; Munosabat</span>
+          </button>
+          <button type="button" class="part-pill" data-part="6" title="Story &amp; Narrative">
+            <span class="part-pill-badge">P6</span>
+            <span class="part-pill-text">Qisqa Hikoya</span>
+          </button>
+        </div>
       </div>
 
-      <!-- CEFR Levels -->
-      <div class="lis-level-row">
-        <span style="font-size: 0.8125rem; font-weight: 600; color: var(--muted); margin-right: 4px;">Daraja:</span>
-        <button type="button" class="level-pill lis-level-pill active" data-level="all">Barchasi</button>
-        <button type="button" class="level-pill lis-level-pill" data-level="A2">A2</button>
-        <button type="button" class="level-pill lis-level-pill" data-level="B1">B1</button>
-        <button type="button" class="level-pill lis-level-pill" data-level="B2">B2</button>
-        <button type="button" class="level-pill lis-level-pill" data-level="C1">C1</button>
+      <!-- Divider -->
+      <div class="filter-hairline"></div>
+
+      <!-- Level Selection -->
+      <div class="filter-group filter-group-levels">
+        <div class="filter-header">
+          <span class="filter-label-title">CEFR Darajasi</span>
+        </div>
+        <div class="apple-segmented-track levels-track" role="tablist">
+          <button type="button" class="level-pill lis-level-pill active" data-level="all">Barchasi</button>
+          <button type="button" class="level-pill lis-level-pill" data-level="A2">A2 · Elementary</button>
+          <button type="button" class="level-pill lis-level-pill" data-level="B1">B1 · Intermediate</button>
+          <button type="button" class="level-pill lis-level-pill" data-level="B2">B2 · Upper-Int</button>
+          <button type="button" class="level-pill lis-level-pill" data-level="C1">C1 · Advanced</button>
+        </div>
       </div>
     </div>
 

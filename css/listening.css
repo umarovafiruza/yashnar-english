@@ -173,53 +173,129 @@
   color: #fff;
 }
 
-/* Filter Controls */
-.lis-filters {
+/* ---------- Apple-Style Filter Hub ---------- */
+.lis-apple-filter-hub {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 18px 20px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
   gap: 14px;
-  margin-bottom: 28px;
 }
 
-.lis-parts-scroll {
+.filter-group {
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 6px;
-  scrollbar-width: none;
-}
-.lis-parts-scroll::-webkit-scrollbar { display: none; }
-
-.part-pill {
-  flex: none;
-  background: none;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 8px 16px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
 }
 
-.part-pill:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-}
-
-.part-pill.active {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: #fff;
-}
-
-.lis-level-row {
+.filter-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 12px;
+  padding-left: 2px;
+}
+
+.filter-label-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.filter-hint {
+  font-size: 0.75rem;
+  color: #9aa0a6;
+}
+
+.filter-hairline {
+  height: 1px;
+  background: #f1f2f5;
+  margin: 2px 0;
+}
+
+/* Apple Segmented Capsule Track */
+.apple-segmented-track {
+  background: #f1f2f5;
+  border-radius: 14px;
+  padding: 4px;
+  display: flex;
   flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+}
+
+.apple-segmented-track .part-pill,
+.apple-segmented-track .lis-level-pill {
+  flex: 1 1 auto;
+  border: 0;
+  background: transparent;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #555861;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  outline: none;
+  user-select: none;
+}
+
+.apple-segmented-track .part-pill:hover,
+.apple-segmented-track .lis-level-pill:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.apple-segmented-track .part-pill.active,
+.apple-segmented-track .lis-level-pill.active {
+  background: #ffffff;
+  color: #111214;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0.5px 1.5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-0.5px);
+}
+
+.part-pill-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: #e4e6ea;
+  color: #4b4f58;
+  padding: 1px 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.part-pill.active .part-pill-badge {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+.part-pill-text {
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 640px) {
+  .lis-apple-filter-hub {
+    padding: 14px;
+    border-radius: 16px;
+  }
+  .apple-segmented-track .part-pill,
+  .apple-segmented-track .lis-level-pill {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
 }
 
 /* Exercise Cards Grid */
