@@ -5,6 +5,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/quiz.css">
+<link rel="stylesheet" href="css/listening.css">
 <style>
 /* Layout: a quiet list of ten topics; picking one opens a full-screen teleprompter with a fixed focus line. */
 :root {
@@ -193,7 +194,7 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
         Shadowing
       </button>
       <button class="nav-tab" data-tab="listening" role="tab" type="button">
-        Listening <span class="badge">Tez kunda</span>
+        Listening
       </button>
       <button class="nav-tab" data-tab="quiz" role="tab" type="button">
         Quiz
@@ -209,6 +210,178 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
   <div class="levels" id="levels" role="group" aria-label="Daraja"></div>
   <ul class="topics" id="topics"></ul>
 </main>
+
+<section class="listening-root" id="listening-root" hidden aria-label="Listening Practice Section">
+  <!-- View 1: Catalog -->
+  <div id="listening-view-catalog">
+    <div class="lis-header">
+      <p class="lis-brand">Audio Listening &amp; Comprehension</p>
+      <h2 class="lis-title">Listening Practice</h2>
+      <p class="lis-lead">Improve your English listening skills through realistic audio exercises and comprehension questions.</p>
+      <p class="lis-sublead">Real suhbatlar, monologlar va ma'ruzalarni tinglang hamda CEFR talablariga mos 8 ta savolga javob bering.</p>
+    </div>
+
+    <!-- Stats Banner -->
+    <div class="lis-stats-banner" id="listening-stats-banner"></div>
+
+    <!-- Filters: Parts and Levels -->
+    <div class="lis-filters">
+      <!-- Parts scroll -->
+      <div class="lis-parts-scroll" role="tablist">
+        <button type="button" class="part-pill active" data-part="0">Barcha Partlar (1–6)</button>
+        <button type="button" class="part-pill" data-part="1">Part 1: Everyday Conversations</button>
+        <button type="button" class="part-pill" data-part="2">Part 2: Monologue &amp; Info</button>
+        <button type="button" class="part-pill" data-part="3">Part 3: Academic Discussion</button>
+        <button type="button" class="part-pill" data-part="4">Part 4: Lecture &amp; Talk</button>
+        <button type="button" class="part-pill" data-part="5">Part 5: Opinions &amp; Attitudes</button>
+        <button type="button" class="part-pill" data-part="6">Part 6: Story &amp; Narrative</button>
+      </div>
+
+      <!-- CEFR Levels -->
+      <div class="lis-level-row">
+        <span style="font-size: 0.8125rem; font-weight: 600; color: var(--muted); margin-right: 4px;">Daraja:</span>
+        <button type="button" class="level-pill lis-level-pill active" data-level="all">Barchasi</button>
+        <button type="button" class="level-pill lis-level-pill" data-level="A2">A2</button>
+        <button type="button" class="level-pill lis-level-pill" data-level="B1">B1</button>
+        <button type="button" class="level-pill lis-level-pill" data-level="B2">B2</button>
+        <button type="button" class="level-pill lis-level-pill" data-level="C1">C1</button>
+      </div>
+    </div>
+
+    <!-- Exercise Cards Grid -->
+    <div class="lis-grid" id="listening-grid"></div>
+  </div>
+
+  <!-- View 2: Active Runner -->
+  <div id="listening-view-runner" class="lis-runner-container" hidden>
+    <div class="lis-runner-top">
+      <button type="button" class="link" id="btn-lis-exit">← Chiqish</button>
+      <div class="runner-topic-info">
+        <span class="runner-topic-name" id="lis-runner-title">Mashq nomi</span>
+        <div class="runner-topic-meta" id="lis-runner-meta"></div>
+      </div>
+    </div>
+
+    <!-- Custom Audio Player -->
+    <div class="audio-player-box">
+      <div class="player-main-row">
+        <button type="button" class="btn-play-pause" id="btn-audio-play" aria-label="Play or pause audio">▶</button>
+        <div class="player-track-area">
+          <div class="player-scrubber-bar" id="player-scrubber-bar" title="Audio davomiyligi bo'ylab surish">
+            <div class="player-scrubber-fill" id="player-scrubber-fill"></div>
+          </div>
+          <div class="player-time-row">
+            <span id="player-time-current">0:00</span>
+            <span id="player-time-duration">0:35</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="player-controls-row">
+        <div class="player-ctrl-group">
+          <button type="button" class="player-btn-small" id="btn-audio-replay">↺ Qayta eshitish</button>
+          <label style="font-size: 0.8125rem; color: var(--muted);" for="select-playback-speed">Tezlik:</label>
+          <select id="select-playback-speed" class="speed-select">
+            <option value="0.8">0.8x</option>
+            <option value="1.0" selected>1.0x (Normal)</option>
+            <option value="1.2">1.2x</option>
+          </select>
+        </div>
+
+        <div class="player-volume-wrap">
+          <span style="font-size: 0.875rem;">🔊</span>
+          <input type="range" class="volume-slider" id="audio-volume-slider" min="0" max="1" step="0.05" value="1" title="Ovoz balandligi">
+        </div>
+      </div>
+    </div>
+
+    <!-- Questions Stage -->
+    <div class="lis-questions-area">
+      <!-- Question Numbers Palette (1..8) -->
+      <div class="runner-palette" id="lis-runner-palette"></div>
+
+      <!-- Question Card -->
+      <div class="question-card">
+        <div class="q-badge-row">
+          <span class="q-type-badge" id="lis-q-badge">Multiple Choice</span>
+          <span>·</span>
+          <span style="font-size: 0.8125rem; color: var(--muted);" id="lis-q-counter">Savol 1 / 8</span>
+        </div>
+        <div class="question-text" id="lis-q-text">Savol yuklanmoqda...</div>
+        <div id="lis-q-options"></div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="runner-footer">
+        <button type="button" class="btn ghost" id="btn-lis-prev">← Oldingisi</button>
+        <div class="footer-nav-group">
+          <button type="button" class="btn ghost" id="btn-lis-finish">Yakunlash</button>
+          <button type="button" class="btn" id="btn-lis-next">Keyingisi →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View 3: Results -->
+  <div id="listening-view-results" class="results-container" hidden>
+    <div class="results-hero">
+      <div class="results-score-badge">
+        <span class="score-percent" id="lis-res-percent">0</span>
+        <span class="score-sign">%</span>
+      </div>
+      <h3 class="results-headline" id="lis-res-headline">Mashq yakunlandi!</h3>
+      <p class="results-message" id="lis-res-message">Natijangiz qayd etildi.</p>
+
+      <div class="results-metrics">
+        <div class="metric-box val-green">
+          <div class="val" id="lis-res-correct">0</div>
+          <div class="lbl">To'g'ri javoblar</div>
+        </div>
+        <div class="metric-box val-red">
+          <div class="val" id="lis-res-wrong">0</div>
+          <div class="lbl">Noto'g'ri javoblar</div>
+        </div>
+        <div class="metric-box">
+          <div class="val" id="lis-res-level">B1</div>
+          <div class="lbl">CEFR Daraja</div>
+        </div>
+        <div class="metric-box">
+          <div class="val" id="lis-res-part">Part 1</div>
+          <div class="lbl">Format turi</div>
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button type="button" class="btn" id="btn-lis-try-again">Qayta ishlash</button>
+        <button type="button" class="btn" id="btn-lis-next-exercise">Keyingi mashq →</button>
+        <button type="button" class="btn ghost" id="btn-lis-back-catalog">Barcha mashqlar</button>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <button type="button" class="btn ghost" id="btn-toggle-transcript" style="font-size: 0.875rem;">
+          Audio matnini ko'rsatish (Show Transcript)
+        </button>
+      </div>
+
+      <!-- Transcript Box (revealed on button click) -->
+      <div class="transcript-box" id="lis-transcript-box" hidden>
+        <div class="transcript-header">
+          <span style="font-weight: 600; font-size: 0.9375rem; color: var(--ink);">Audio transkripti:</span>
+          <button type="button" class="player-btn-small" id="btn-transcript-play-audio">▶ Audioni qayta tinglash</button>
+        </div>
+        <div class="transcript-text" id="lis-res-transcript-text"></div>
+      </div>
+    </div>
+
+    <!-- Review Section -->
+    <div class="review-section">
+      <div class="review-heading">
+        <span>Savollar tahlili va to'g'ri javoblar</span>
+      </div>
+      <div class="review-list" id="lis-res-review-list"></div>
+    </div>
+  </div>
+</section>
 
 <section class="quiz-root" id="quiz-root" hidden aria-label="Grammar and Vocabulary Quiz">
   <!-- View 1: Catalog -->
@@ -1415,4 +1588,6 @@ var TOPICS = [
 <script src="data/quiz-grammar.js"></script>
 <script src="data/quiz-vocabulary.js"></script>
 <script src="js/quiz.js"></script>
+<script src="data/listening-exercises.js"></script>
+<script src="js/listening.js"></script>
 </body></html>

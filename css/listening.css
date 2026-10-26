@@ -1,0 +1,455 @@
+/* ========================================================
+   YASHNAR ENGLISH - LISTENING PRACTICE SECTION STYLES
+   Minimalist, Apple-inspired, fully responsive
+   ======================================================== */
+
+.listening-root {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding-block: clamp(32px, 6vw, 64px) 80px;
+}
+
+@media (min-width: 1400px) {
+  .listening-root {
+    max-width: 76rem;
+  }
+}
+
+/* ---------- Listening Header ---------- */
+.lis-header {
+  margin-bottom: clamp(28px, 5vw, 44px);
+}
+
+.lis-brand {
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.lis-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+}
+
+.lis-lead {
+  font-size: 1.125rem;
+  color: var(--ink);
+  margin: 0 0 8px;
+  max-width: 38rem;
+  font-weight: 500;
+}
+
+.lis-sublead {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  margin: 0;
+  max-width: 38rem;
+}
+
+/* Stats Ribbon */
+.lis-stats-banner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 16px;
+  background: #fafbfc;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 36px;
+  align-items: center;
+}
+
+/* Filter Controls */
+.lis-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.lis-parts-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+.lis-parts-scroll::-webkit-scrollbar { display: none; }
+
+.part-pill {
+  flex: none;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.part-pill:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.part-pill.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.lis-level-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Exercise Cards Grid */
+.lis-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 680px) {
+  .lis-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .lis-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.lis-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-align: left;
+}
+
+.lis-card:hover {
+  border-color: #c4c7cf;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.lis-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.lis-part-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lis-card-title {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 6px;
+  line-height: 1.35;
+}
+
+.lis-card-uz {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.lis-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8125rem;
+  color: #7a7d86;
+  margin-bottom: 18px;
+}
+
+.lis-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lis-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #f1f2f5;
+  padding-top: 14px;
+  font-size: 0.8125rem;
+}
+
+.lis-score-pill {
+  font-weight: 600;
+  color: #10753f;
+  background: #eef8f2;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* ---------- Active Runner & Audio Player ---------- */
+.lis-runner-container {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.lis-runner-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+
+/* Audio Player Component */
+.audio-player-box {
+  background: #fafbfc;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.player-main-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.btn-play-pause {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #ffffff;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  flex: none;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.btn-play-pause:hover {
+  background: var(--accent);
+  transform: scale(1.05);
+}
+
+.player-track-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.player-scrubber-bar {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: #e2e4e9;
+  border-radius: 999px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.player-scrubber-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.1s linear;
+}
+
+.player-time-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.player-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #eef0f4;
+}
+
+.player-ctrl-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.player-btn-small {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.player-btn-small:hover {
+  border-color: var(--ink);
+}
+
+.speed-select {
+  font: inherit;
+  font-size: 0.8125rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: var(--ink);
+  cursor: pointer;
+  outline: none;
+}
+
+.player-volume-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.volume-slider {
+  width: 80px;
+  height: 4px;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+
+/* Questions Section */
+.lis-questions-area {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Text Inputs for Fill in blank / short answer */
+.lis-text-input {
+  width: 100%;
+  font: inherit;
+  font-size: 1.0625rem;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  outline: none;
+  background: #ffffff;
+  color: var(--ink);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lis-text-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(43, 63, 214, 0.1);
+}
+
+/* True / False Option Buttons */
+.tf-options-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.tf-btn {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.tf-btn:hover {
+  border-color: #9aa0a6;
+  background: #fafbfc;
+}
+
+.tf-btn.selected {
+  border-color: var(--accent);
+  background: #f4f6ff;
+  color: var(--accent);
+}
+
+/* ---------- Transcript Accordion ---------- */
+.transcript-box {
+  background: #fafbfc;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 32px;
+}
+
+.transcript-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.transcript-text {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--ink);
+  white-space: pre-line;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 20px;
+}

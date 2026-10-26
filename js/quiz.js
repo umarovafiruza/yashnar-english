@@ -82,14 +82,11 @@
     const tabs = document.querySelectorAll('.nav-tab');
     const homeEl = $('home');
     const quizRoot = $('quiz-root');
+    const listeningRoot = $('listening-root');
 
     tabs.forEach(tab => {
       tab.addEventListener('click', function () {
         const target = this.dataset.tab;
-        if (target === 'listening') {
-          showToast("Listening bo'limi tez kunda qo'shiladi! Hozircha Shadowing va Quiz'dan foydalanishingiz mumkin.");
-          return;
-        }
 
         tabs.forEach(t => t.classList.remove('active'));
         this.classList.add('active');
@@ -97,10 +94,20 @@
 
         if (target === 'shadowing') {
           if (quizRoot) quizRoot.hidden = true;
+          if (listeningRoot) listeningRoot.hidden = true;
           if (homeEl) homeEl.hidden = false;
+          window.scrollTo(0, 0);
+        } else if (target === 'listening') {
+          if (homeEl) homeEl.hidden = true;
+          if (quizRoot) quizRoot.hidden = true;
+          if (listeningRoot) listeningRoot.hidden = false;
+          if (window.openListeningSection) {
+            window.openListeningSection();
+          }
           window.scrollTo(0, 0);
         } else if (target === 'quiz') {
           if (homeEl) homeEl.hidden = true;
+          if (listeningRoot) listeningRoot.hidden = true;
           if (quizRoot) quizRoot.hidden = false;
           renderCatalog();
           window.scrollTo(0, 0);
