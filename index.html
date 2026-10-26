@@ -4,6 +4,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/quiz.css">
 <style>
 /* Layout: a quiet list of ten topics; picking one opens a full-screen teleprompter with a fixed focus line. */
 :root {
@@ -181,6 +182,26 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
 }
 </style>
 
+<nav class="site-nav" id="site-nav">
+  <div class="site-nav-inner">
+    <div class="nav-brand">
+      <span class="dot"></span>
+      <span>Yashnar English</span>
+    </div>
+    <div class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="shadowing" role="tab" type="button">
+        Shadowing
+      </button>
+      <button class="nav-tab" data-tab="listening" role="tab" type="button">
+        Listening <span class="badge">Tez kunda</span>
+      </button>
+      <button class="nav-tab" data-tab="quiz" role="tab" type="button">
+        Quiz
+      </button>
+    </div>
+  </div>
+</nav>
+
 <main class="home" id="home">
   <p class="brand">Speaking practice</p>
   <h1>Fast and Clear</h1>
@@ -188,6 +209,132 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
   <div class="levels" id="levels" role="group" aria-label="Daraja"></div>
   <ul class="topics" id="topics"></ul>
 </main>
+
+<section class="quiz-root" id="quiz-root" hidden aria-label="Grammar and Vocabulary Quiz">
+  <!-- View 1: Catalog -->
+  <div id="quiz-view-catalog">
+    <div class="quiz-header">
+      <p class="quiz-brand">Practice &amp; Evaluation</p>
+      <h2 class="quiz-title">Quiz</h2>
+      <p class="quiz-lead">Test your grammar. Expand your vocabulary. Improve your English.</p>
+      <p class="quiz-sublead">Grammatikani mustahkamlang, so'z boyligingizni oshiring va CEFR darajangiz bo'yicha bilimlaringizni sinab ko'ring.</p>
+    </div>
+
+    <!-- Stats Banner -->
+    <div class="quiz-stats-banner" id="quiz-stats-banner"></div>
+
+    <!-- Mode switch: Grammar vs Vocabulary -->
+    <div class="quiz-mode-switch" role="tablist">
+      <button type="button" class="mode-btn active" data-mode="grammar">
+        Grammar <span class="mode-count">15 mavzu · 109 savol</span>
+      </button>
+      <button type="button" class="mode-btn" data-mode="vocabulary">
+        Vocabulary <span class="mode-count">8 yo'nalish · 112 savol</span>
+      </button>
+    </div>
+
+    <!-- Filters: CEFR level & question count -->
+    <div class="quiz-filter-bar">
+      <div class="level-filters">
+        <button type="button" class="level-pill active" data-level="all">Barchasi</button>
+        <button type="button" class="level-pill" data-level="A1">A1</button>
+        <button type="button" class="level-pill" data-level="A2">A2</button>
+        <button type="button" class="level-pill" data-level="B1">B1</button>
+        <button type="button" class="level-pill" data-level="B2">B2</button>
+        <button type="button" class="level-pill" data-level="C1">C1</button>
+      </div>
+
+      <div class="quiz-quick-settings">
+        <label for="select-question-count">Savollar soni:</label>
+        <select id="select-question-count" class="select-count">
+          <option value="5">5 ta savol</option>
+          <option value="10" selected>10 ta savol (Standart)</option>
+          <option value="15">15 ta savol</option>
+          <option value="20">20 ta savol</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Topics Grid -->
+    <div class="quiz-grid" id="quiz-topics-grid"></div>
+  </div>
+
+  <!-- View 2: Active Runner -->
+  <div id="quiz-view-runner" class="runner-container" hidden>
+    <div class="runner-top">
+      <button type="button" class="link" id="btn-runner-exit">← Chiqish</button>
+      <div class="runner-topic-info">
+        <span class="runner-topic-name" id="runner-topic-title">Mavzu nomi</span>
+        <div class="runner-topic-meta" id="runner-topic-meta"></div>
+      </div>
+    </div>
+
+    <div class="runner-progress-bar">
+      <div class="runner-progress-fill" id="runner-progress-fill"></div>
+    </div>
+
+    <div class="runner-palette" id="runner-palette"></div>
+
+    <div class="question-card">
+      <div class="q-badge-row">
+        <span class="q-type-badge" id="runner-q-type">Multiple Choice</span>
+      </div>
+      <div class="question-text" id="runner-q-text">Savol matni yuklanmoqda...</div>
+      <div class="options-list" id="runner-options"></div>
+    </div>
+
+    <div class="runner-footer">
+      <button type="button" class="btn ghost" id="btn-runner-prev">← Oldingisi</button>
+      <div class="footer-nav-group">
+        <button type="button" class="btn ghost" id="btn-runner-finish">Yakunlash</button>
+        <button type="button" class="btn" id="btn-runner-next">Keyingisi →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- View 3: Results & Review -->
+  <div id="quiz-view-results" class="results-container" hidden>
+    <div class="results-hero">
+      <div class="results-score-badge">
+        <span class="score-percent" id="res-score-percent">0</span>
+        <span class="score-sign">%</span>
+      </div>
+      <h3 class="results-headline" id="res-headline">Sinov yakunlandi!</h3>
+      <p class="results-message" id="res-message">Natijangiz qayd etildi.</p>
+
+      <div class="results-metrics">
+        <div class="metric-box val-green">
+          <div class="val" id="res-metric-correct">0</div>
+          <div class="lbl">To'g'ri javoblar</div>
+        </div>
+        <div class="metric-box val-red">
+          <div class="val" id="res-metric-wrong">0</div>
+          <div class="lbl">Noto'g'ri javoblar</div>
+        </div>
+        <div class="metric-box">
+          <div class="val" id="res-metric-time">0 son</div>
+          <div class="lbl">Sarflangan vaqt</div>
+        </div>
+        <div class="metric-box">
+          <div class="val" id="res-metric-level">All</div>
+          <div class="lbl">Daraja</div>
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button type="button" class="btn" id="btn-res-retake">Qayta ishlash</button>
+        <button type="button" class="btn ghost" id="btn-res-catalog">Yangi test tanlash</button>
+      </div>
+    </div>
+
+    <div class="review-section">
+      <div class="review-heading">
+        <span>Savollar tahlili va tushuntirishlar</span>
+      </div>
+      <div class="review-list" id="res-review-list"></div>
+    </div>
+  </div>
+</section>
 
 <section class="reader" id="reader" hidden aria-label="O'qish">
   <div class="bar">
@@ -1265,4 +1412,7 @@ var TOPICS = [
 })();
 </script>
 
+<script src="data/quiz-grammar.js"></script>
+<script src="data/quiz-vocabulary.js"></script>
+<script src="js/quiz.js"></script>
 </body></html>
