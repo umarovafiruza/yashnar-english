@@ -122,9 +122,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .btn.ghost { background: transparent; color: var(--ink); }
 .btn:hover { border-color: var(--accent); background: var(--accent); color: #fff; }
 
-.controls { display: flex; align-items: center; gap: 20px; padding-block: 14px 10px; border-top: 1px solid var(--line); }
+.controls { display: flex; align-items: center; justify-content: center; gap: 20px; padding-block: 14px 10px; border-top: 1px solid var(--line); }
 .controls .btn { min-width: 8.5rem; }
-.speed { flex: 1; min-width: 0; display: grid; gap: 6px; }
+.speed { flex: 0 1 30rem; width: 100%; min-width: 0; display: grid; gap: 6px; }
 .speed .cap { display: flex; justify-content: space-between; gap: 12px; font-size: 0.8125rem; color: var(--muted); }
 .speed .ends { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-top: -4px; }
 .speed output { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
@@ -152,13 +152,13 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
 @media (min-width: 700px) {
   .track { font-size: clamp(2.25rem, 4.2vw, 3rem); }
   .controls { gap: 28px; }
-  .speed { max-width: 30rem; }
+  .speed { flex: 0 1 32rem; max-width: 32rem; }
 }
 /* Large monitor */
 @media (min-width: 1400px) {
   .track { font-size: clamp(3rem, 2.6vw, 4rem); }
   .reader { padding-left: max(48px, env(safe-area-inset-left, 0px)); padding-right: max(48px, env(safe-area-inset-right, 0px)); }
-  .speed { max-width: 36rem; }
+  .speed { flex: 0 1 36rem; max-width: 36rem; }
 }
 /* Small phone: controls stack, button spans the row */
 @media (max-width: 440px) {

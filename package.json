@@ -1,0 +1,12 @@
+{
+  "name": "yashnar-english",
+  "version": "1.0.0",
+  "description": "Fast and Clear English learning interactive web app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
