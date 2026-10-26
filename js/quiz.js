@@ -481,7 +481,9 @@
         "Testni yakunlash",
         () => {
           finalizeQuiz();
-        }
+        },
+        false,
+        "info"
       );
     } else {
       finalizeQuiz();
@@ -611,7 +613,20 @@
   }
 
   // --- Modals (Exit Confirmation, History) ---
-  function showConfirmModal(title, message, cancelText, confirmText, onConfirm) {
+  function showConfirmModal(title, message, cancelText, confirmText, onConfirm, isDanger = false, icon = 'warning') {
+    if (window.YashnarModal) {
+      window.YashnarModal.confirm({
+        title,
+        message,
+        cancelText,
+        confirmText,
+        isDanger,
+        icon,
+        onConfirm
+      });
+      return;
+    }
+
     const existing = document.querySelector('.modal-overlay');
     if (existing) existing.remove();
 
@@ -622,8 +637,8 @@
         <h3>${title}</h3>
         <p>${message}</p>
         <div class="modal-actions">
-          <button type="button" class="btn ghost" id="modal-btn-cancel">${cancelText}</button>
-          <button type="button" class="btn" id="modal-btn-confirm">${confirmText}</button>
+          <button type="button" class="btn-modal-cancel" id="modal-btn-cancel">${cancelText}</button>
+          <button type="button" class="btn-modal-confirm ${isDanger ? 'danger' : ''}" id="modal-btn-confirm">${confirmText}</button>
         </div>
       </div>
     `;
@@ -641,65 +656,31 @@
   }
 
   function showHistoryModal() {
-    const hist = State.history;
-    const existing = document.querySelector('.modal-overlay');
-    if (existing) existing.remove();
-
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
-
-    let contentHtml = '';
-    if (!hist.length) {
-      contentHtml = `<p style="text-align: center; color: var(--muted); padding: 32px 0;">Hozircha ishlangan testlar mavjud emas.</p>`;
-    } else {
-      contentHtml = `
-        <div class="history-list">
-          ${hist.map(h => {
-            const dateStr = new Date(h.date).toLocaleDateString('uz-UZ', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-            return `
-              <div class="history-item">
-                <div class="history-meta">
-                  <span class="history-title">${h.topicName}</span>
-                  <span class="history-sub">${dateStr} · ${h.section.toUpperCase()} · ${h.level}</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 12px;">
-                  <span class="history-score">${h.percentage}%</span>
-                  <span style="font-size: 0.8125rem; color: var(--muted);">(${h.score}/${h.total})</span>
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `;
-    }
-
-    overlay.innerHTML = `
-      <div class="modal-card history-modal-card">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-          <h3 style="margin: 0;">Testlar Tarixi</h3>
-          ${hist.length ? `<button type="button" class="btn ghost" id="btn-clear-history" style="font-size: 0.75rem; padding: 4px 10px; min-height: 32px; color: #c5221f;">Tarixni tozalash</button>` : ''}
-        </div>
-        ${contentHtml}
-        <div class="modal-actions" style="margin-top: auto;">
-          <button type="button" class="btn" id="modal-close-history">Yopish</button>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-
-    overlay.querySelector('#modal-close-history').addEventListener('click', () => {
-      overlay.remove();
+    const hist = State.history || [];
+    const items = hist.map(h => {
+      const dateStr = new Date(h.date).toLocaleDateString('uz-UZ', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      return {
+        title: h.topicName,
+        badge: (h.section || 'quiz').toUpperCase() + ' · ' + (h.level || ''),
+        date: dateStr,
+        sub: '',
+        score: h.score,
+        total: h.total,
+        percentage: h.percentage
+      };
     });
 
-    const clearBtn = overlay.querySelector('#btn-clear-history');
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        if (confirm("Haqiqatan ham testlar tarixini tozalashni xohlaysizmi?")) {
+    if (window.YashnarModal) {
+      window.YashnarModal.showHistory({
+        title: "Testlar Tarixi",
+        items,
+        emptyMessage: "Hozircha ishlangan testlar mavjud emas.",
+        onClear: function() {
           clearHistory();
-          overlay.remove();
+          renderStatsBanner();
         }
       });
+      return;
     }
   }
 
@@ -770,7 +751,9 @@
           () => {
             State.currentQuiz = null;
             renderCatalog();
-          }
+          },
+          true,
+          "danger"
         );
       });
     }

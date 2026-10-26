@@ -352,7 +352,52 @@
         <span class="stat-num">${stats.avgPct > 0 ? stats.avgPct + '%' : '—'}</span>
         <span class="stat-label">O'rtacha ko'rsatkich</span>
       </div>
+      <div class="lis-stat-action">
+        <button type="button" class="btn ghost" id="btn-open-listening-history" style="font-size: 0.875rem; padding: 0 16px; min-height: 40px;">
+          Tarixni ko'rish (${State.history.length})
+        </button>
+      </div>
     `;
+
+    const histBtn = $('btn-open-listening-history');
+    if (histBtn) {
+      histBtn.onclick = showListeningHistoryModal;
+    }
+  }
+
+  function showListeningHistoryModal() {
+    const hist = State.history || [];
+    const items = hist.map(h => {
+      const dateStr = new Date(h.date).toLocaleDateString('uz-UZ', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      const ex = (window.LISTENING_EXERCISES || []).find(e => e.id === h.exerciseId);
+      const title = ex ? ex.title : (h.title || 'Listening mashqi');
+      const badge = (h.level || (ex ? ex.level : 'B1')) + ' · ' + (ex ? `Part ${ex.part}` : 'Listening');
+      const pct = Math.round((h.score / h.total) * 100);
+      return {
+        title,
+        badge,
+        date: dateStr,
+        sub: ex ? ex.category : '',
+        score: h.score,
+        total: h.total,
+        percentage: pct
+      };
+    });
+
+    if (window.YashnarModal) {
+      window.YashnarModal.showHistory({
+        title: "Listening Mashqlari Tarixi",
+        items,
+        emptyMessage: "Hozircha bajarilgan listening mashqlari mavjud emas.",
+        onClear: function() {
+          try {
+            localStorage.removeItem(STORAGE_KEY_LISTENING_HIST);
+          } catch (e) {}
+          State.history = [];
+          renderListeningStats();
+        }
+      });
+    }
   }
 
   function getExerciseBestScore(exId) {
@@ -649,8 +694,19 @@
     });
 
     if (unanswered > 0) {
-      if (confirm(`Sizda ${unanswered} ta javob berilmagan savol qoldi. Mashqni yakunlamoqchimisiz?`)) {
-        finalizeListeningExercise();
+      if (window.YashnarModal) {
+        window.YashnarModal.confirm({
+          title: "Savollar to'liq yechilmadi",
+          message: `Sizda hali ${unanswered} ta javob berilmagan savol qoldi. Mashqni hozir yakunlamoqchimisiz?`,
+          icon: "info",
+          cancelText: "Davom ettirish",
+          confirmText: "Yakunlash",
+          onConfirm: finalizeListeningExercise
+        });
+      } else {
+        if (confirm(`Sizda ${unanswered} ta javob berilmagan savol qoldi. Mashqni yakunlamoqchimisiz?`)) {
+          finalizeListeningExercise();
+        }
       }
     } else {
       finalizeListeningExercise();
@@ -870,9 +926,24 @@
 
     if (exitBtn) {
       exitBtn.onclick = () => {
-        if (confirm("Mashq jarayonidan chiqmoqchimisiz? Natijangiz saqlanmaydi.")) {
-          if (State.audioPlayer) State.audioPlayer.pause();
-          renderListeningCatalog();
+        if (window.YashnarModal) {
+          window.YashnarModal.confirm({
+            title: "Mashqni tark etish",
+            message: "Mashq jarayonidan chiqmoqchimisiz? Hozirgi urinishingiz natijasi saqlanmaydi.",
+            icon: "danger",
+            isDanger: true,
+            cancelText: "Davom etish",
+            confirmText: "Chiqish",
+            onConfirm: () => {
+              if (State.audioPlayer) State.audioPlayer.pause();
+              renderListeningCatalog();
+            }
+          });
+        } else {
+          if (confirm("Mashq jarayonidan chiqmoqchimisiz? Natijangiz saqlanmaydi.")) {
+            if (State.audioPlayer) State.audioPlayer.pause();
+            renderListeningCatalog();
+          }
         }
       };
     }

@@ -69,6 +69,10 @@
   align-items: center;
 }
 
+.lis-stat-action {
+  justify-self: end;
+}
+
 @media (max-width: 600px) {
   .lis-stats-banner {
     grid-template-columns: repeat(2, 1fr);
@@ -79,6 +83,7 @@
     font-size: 1.625rem;
   }
   .lis-stat-action {
+    justify-self: stretch;
     grid-column: 1 / -1;
     width: 100%;
   }
