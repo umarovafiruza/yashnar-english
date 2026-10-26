@@ -6,12 +6,13 @@
 .site-nav {
   position: sticky;
   top: 0;
-  z-index: 15;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
   border-bottom: 1px solid var(--line);
   padding: 12px max(16px, env(safe-area-inset-left, 0px));
+  width: 100%;
 }
 
 .site-nav-inner {
@@ -21,6 +22,44 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .site-nav {
+    padding: 8px max(12px, env(safe-area-inset-left, 0px));
+  }
+  .site-nav-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-brand {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+  .nav-tabs {
+    width: 100%;
+    max-width: 22rem;
+    justify-content: center;
+    padding: 3px;
+    gap: 4px;
+  }
+  .nav-tab {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 7px 8px;
+    font-size: 0.8125rem;
+    justify-content: center;
+    min-height: 38px;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav-tab {
+    padding: 6px 4px;
+    font-size: 0.75rem;
+    gap: 4px;
+  }
 }
 
 .nav-brand {
@@ -94,7 +133,9 @@
 .quiz-root {
   max-width: 60rem;
   margin: 0 auto;
-  padding-block: clamp(32px, 6vw, 64px) 80px;
+  padding-block: clamp(24px, 5vw, 64px) 80px;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px));
+  width: 100%;
 }
 
 @media (min-width: 1400px) {
@@ -105,7 +146,7 @@
 
 /* ---------- Catalog / Main Quiz View ---------- */
 .quiz-header {
-  margin-bottom: clamp(28px, 5vw, 48px);
+  margin-bottom: clamp(24px, 5vw, 48px);
 }
 
 .quiz-brand {
@@ -119,10 +160,12 @@
 .quiz-title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(3rem, 9vw, 5.5rem);
-  line-height: 0.98;
+  font-size: clamp(2rem, 8vw, 5.5rem);
+  line-height: 1.02;
   letter-spacing: -0.02em;
   margin: 0 0 18px;
+  word-break: break-word;
+  text-wrap: balance;
 }
 
 .quiz-lead {
@@ -176,9 +219,28 @@
 }
 
 @media (max-width: 600px) {
+  .quiz-stats-banner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+  }
+  .stat-item {
+    min-width: 0;
+  }
+  .stat-num {
+    font-size: 1.625rem;
+  }
   .stat-action {
     justify-self: stretch;
     grid-column: 1 / -1;
+    width: 100%;
+  }
+  .stat-action button {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    min-height: 44px;
   }
 }
 
@@ -188,6 +250,13 @@
   gap: 12px;
   border-bottom: 1px solid var(--line);
   margin-bottom: 24px;
+}
+
+@media (max-width: 640px) {
+  .quiz-mode-switch {
+    gap: 6px;
+    margin-bottom: 18px;
+  }
 }
 
 .mode-btn {
@@ -203,6 +272,15 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .mode-btn {
+    flex: 1 1 50%;
+    justify-content: center;
+    font-size: 0.9375rem;
+    padding: 10px 4px 12px;
+  }
 }
 
 .mode-btn:hover {
@@ -239,10 +317,39 @@
   margin-bottom: 28px;
 }
 
+@media (max-width: 640px) {
+  .quiz-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .quiz-quick-settings {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
 .level-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .level-filters {
+    gap: 6px;
+  }
+  .level-pill {
+    flex: 1 1 auto;
+    text-align: center;
+    justify-content: center;
+    padding: 7px 10px;
+    font-size: 0.78125rem;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
 }
 
 .level-pill {
@@ -926,9 +1033,123 @@
   align-items: center;
   gap: 8px;
   animation: toastIn 0.2s ease;
+  max-width: 90vw;
 }
 
 @keyframes toastIn {
   from { opacity: 0; transform: translate(-50%, 10px); }
   to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ---------- Global Responsive Rules for Quiz ---------- */
+@media (max-width: 520px) {
+  .quiz-card {
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+  .card-title {
+    font-size: 1.0625rem;
+  }
+  .card-desc {
+    font-size: 0.8125rem;
+    margin-bottom: 14px;
+  }
+  .runner-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .runner-top .btn-ghost {
+    align-self: flex-start;
+    min-height: 40px;
+  }
+  .runner-palette {
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .question-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  .question-text {
+    font-size: 1.1875rem;
+    margin-bottom: 20px;
+  }
+  .option-item {
+    padding: 12px 14px;
+    font-size: 0.9375rem;
+    min-height: 48px;
+    border-radius: 10px;
+  }
+  .option-key {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+  .runner-footer {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+  .footer-nav-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .footer-nav-group button {
+    flex: 1 1 auto;
+    justify-content: center;
+    min-height: 48px;
+  }
+  #btn-finish-quiz {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+  .results-hero {
+    padding: 24px 16px;
+    border-radius: 18px;
+    margin-bottom: 24px;
+  }
+  .score-percent {
+    font-size: clamp(3rem, 14vw, 5rem);
+  }
+  .results-headline {
+    font-size: 1.25rem;
+  }
+  .results-metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .results-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .results-actions button {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+  }
+  .ans-row {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .ans-row .ans-label {
+    min-width: 0;
+  }
+  .modal-card {
+    padding: 20px 16px;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .modal-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .modal-actions button {
+    width: 100%;
+    min-height: 46px;
+    justify-content: center;
+  }
 }

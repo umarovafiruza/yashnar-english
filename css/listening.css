@@ -6,7 +6,9 @@
 .listening-root {
   max-width: 60rem;
   margin: 0 auto;
-  padding-block: clamp(32px, 6vw, 64px) 80px;
+  padding-block: clamp(24px, 5vw, 64px) 80px;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px));
+  width: 100%;
 }
 
 @media (min-width: 1400px) {
@@ -17,7 +19,7 @@
 
 /* ---------- Listening Header ---------- */
 .lis-header {
-  margin-bottom: clamp(28px, 5vw, 44px);
+  margin-bottom: clamp(24px, 5vw, 44px);
 }
 
 .lis-brand {
@@ -31,10 +33,12 @@
 .lis-title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(3rem, 9vw, 5.5rem);
-  line-height: 0.98;
+  font-size: clamp(2rem, 8vw, 5.5rem);
+  line-height: 1.02;
   letter-spacing: -0.02em;
   margin: 0 0 18px;
+  word-break: break-word;
+  text-wrap: balance;
 }
 
 .lis-lead {
@@ -65,6 +69,27 @@
   align-items: center;
 }
 
+@media (max-width: 600px) {
+  .lis-stats-banner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .lis-stat-num {
+    font-size: 1.625rem;
+  }
+  .lis-stat-action {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  .lis-stat-action button {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    min-height: 44px;
+  }
+}
+
 /* Voice Quality & Preview Card */
 .lis-voice-card {
   background: #ffffff;
@@ -76,6 +101,14 @@
   flex-direction: column;
   gap: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+@media (max-width: 640px) {
+  .lis-voice-card {
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+  }
 }
 
 @media (min-width: 780px) {
@@ -159,6 +192,22 @@
   align-items: center;
   gap: 6px;
   transition: all 0.15s ease;
+}
+
+@media (max-width: 640px) {
+  .btn-voice-preview {
+    flex: 1 1 calc(50% - 6px);
+    justify-content: center;
+    padding: 8px 10px;
+    min-height: 42px;
+    font-size: 0.78125rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .btn-voice-preview {
+    flex: 1 1 100%;
+  }
 }
 
 .btn-voice-preview:hover {
@@ -288,13 +337,42 @@
 
 @media (max-width: 640px) {
   .lis-apple-filter-hub {
-    padding: 14px;
+    padding: 12px;
     border-radius: 16px;
+    gap: 12px;
   }
-  .apple-segmented-track .part-pill,
-  .apple-segmented-track .lis-level-pill {
-    padding: 6px 10px;
+  .apple-segmented-track.parts-track {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .apple-segmented-track.parts-track .part-pill:first-child {
+    grid-column: 1 / -1;
+  }
+  .apple-segmented-track.parts-track .part-pill {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 10px;
     font-size: 0.75rem;
+    justify-content: space-between;
+  }
+  .apple-segmented-track.levels-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+  .apple-segmented-track.levels-track .lis-level-pill {
+    width: 100%;
+    min-height: 40px;
+    padding: 6px 4px;
+    font-size: 0.75rem;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .apple-segmented-track.levels-track {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -636,4 +714,80 @@
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 18px 20px;
+}
+
+/* ---------- Global Responsive Rules for Listening ---------- */
+@media (max-width: 540px) {
+  .lis-card {
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+  .lis-card-title {
+    font-size: 1.0625rem;
+  }
+  .lis-card-meta {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    font-size: 0.78125rem;
+  }
+  .lis-runner-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .lis-runner-top .btn-ghost {
+    align-self: flex-start;
+    min-height: 40px;
+  }
+  .audio-player-box {
+    padding: 16px;
+    border-radius: 16px;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .player-main-row {
+    gap: 12px;
+  }
+  .btn-play-pause {
+    width: 48px;
+    height: 48px;
+    font-size: 1.125rem;
+    min-width: 48px;
+  }
+  .player-controls-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .player-ctrl-group {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .player-volume-wrap {
+    justify-content: flex-end;
+    width: 100%;
+  }
+  .tf-options-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .tf-btn {
+    min-height: 48px;
+    padding: 12px;
+    font-size: 1rem;
+  }
+  .lis-text-input {
+    min-height: 48px;
+    font-size: 1rem;
+    padding: 12px 14px;
+  }
+  .transcript-box {
+    padding: 16px;
+    border-radius: 14px;
+    margin-top: 24px;
+  }
+  .transcript-text {
+    font-size: 0.9375rem;
+    padding: 14px;
+  }
 }

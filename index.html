@@ -19,32 +19,41 @@
   color-scheme: light;
 }
 * { box-sizing: border-box; }
-html, body { background: var(--bg); color: var(--ink); }
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
 body {
   margin: 0;
+  padding: 0;
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 0;
   -webkit-font-smoothing: antialiased;
 }
-body { overflow-x: clip; }
 body.locked { overflow: hidden; }
 button { font: inherit; color: inherit; cursor: pointer; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
 /* ---------- Home ---------- */
-.home { max-width: 60rem; margin: 0 auto; padding-block: clamp(40px, 9vw, 96px) 64px; }
+.home {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding-block: clamp(32px, 7vw, 96px) 64px;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px));
+}
 .brand { font-size: 0.8125rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 20px; }
 .home h1 {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(3rem, 11vw, 6.5rem);
-  line-height: 0.98;
+  font-size: clamp(2.25rem, 8.5vw, 6.5rem);
+  line-height: 1.02;
   letter-spacing: -0.02em;
   margin: 0 0 24px;
+  word-break: break-word;
   text-wrap: balance;
 }
 .lead { max-width: 34rem; color: var(--muted); font-size: 1.0625rem; margin: 0 0 clamp(36px, 7vw, 64px); }
@@ -99,7 +108,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .track {
   position: absolute; left: 0; right: 0; top: 0; margin: 0 auto; will-change: transform;
-  font-size: clamp(1.3rem, 6.4vw, 2.25rem); max-width: 14em; text-align: center;
+  font-size: clamp(1.2rem, 5.8vw, 2.25rem); max-width: min(15em, 100%); width: 100%; text-align: center;
 }
 .line {
   margin: 0; padding: 0.32em 0;
@@ -124,7 +133,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .btn.ghost { background: transparent; color: var(--ink); }
 .btn:hover { border-color: var(--accent); background: var(--accent); color: #fff; }
 
-.controls { display: flex; align-items: center; justify-content: center; gap: 20px; padding-block: 14px 10px; border-top: 1px solid var(--line); }
+.controls { display: flex; align-items: center; justify-content: center; gap: 20px; padding-block: 14px 10px; border-top: 1px solid var(--line); flex-wrap: wrap; }
 .controls .btn { min-width: 8.5rem; }
 .speed { flex: 0 1 30rem; width: 100%; min-width: 0; display: grid; gap: 6px; }
 .speed .cap { display: flex; justify-content: space-between; gap: 12px; font-size: 0.8125rem; color: var(--muted); }
@@ -144,16 +153,12 @@ input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); border: 0; margin-top: -10px;
 }
 input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--ink); border: 0; }
-@media (max-width: 520px) {
-  .controls { gap: 14px; }
-  .controls .btn { min-width: 0; padding-inline: 16px; }
-}
 
 /* ---------- Screen sizes ---------- */
 /* Tablet and laptop */
 @media (min-width: 700px) {
   .track { font-size: clamp(2.25rem, 4.2vw, 3rem); }
-  .controls { gap: 28px; }
+  .controls { gap: 28px; flex-wrap: nowrap; }
   .speed { flex: 0 1 32rem; max-width: 32rem; }
 }
 /* Large monitor */
@@ -162,22 +167,22 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
   .reader { padding-left: max(48px, env(safe-area-inset-left, 0px)); padding-right: max(48px, env(safe-area-inset-right, 0px)); }
   .speed { flex: 0 1 36rem; max-width: 36rem; }
 }
-/* Small phone: controls stack, button spans the row */
-@media (max-width: 440px) {
-  .controls { flex-wrap: wrap; gap: 4px 0; padding-block: 8px 6px; }
-  .speed { order: 1; flex: 1 1 100%; }
-  .controls .btn { order: 2; flex: 1 1 100%; }
-  .now .n { max-width: 55vw; margin-left: auto; }
+/* Mobile phone: controls stack gracefully without overlap */
+@media (max-width: 520px) {
+  .controls { flex-direction: column; gap: 10px; padding-block: 10px 8px; }
+  .speed { order: 1; flex: 1 1 100%; width: 100%; }
+  .controls .btn { order: 2; flex: 1 1 100%; width: 100%; min-height: 48px; }
+  .now .n { max-width: 50vw; margin-left: auto; font-size: 0.875rem; }
 }
 /* Landscape phone: keep the text area as tall as possible */
 @media (max-height: 560px) {
   .track { font-size: clamp(1.25rem, 6.5vh, 2rem); }
   .bar { padding-bottom: 2px; }
   .now .s { display: none; }
-  .controls { flex-wrap: nowrap; gap: 20px; padding-block: 4px; }
+  .controls { flex-direction: row; flex-wrap: nowrap; gap: 20px; padding-block: 4px; }
   .speed, .controls .btn { order: 0; flex: initial; }
-  .speed { flex: 1; min-width: 0; }
-  .controls .btn { min-width: 8rem; min-height: 44px; }
+  .speed { flex: 1; min-width: 0; width: auto; }
+  .controls .btn { min-width: 8rem; min-height: 44px; width: auto; }
   .speed .ends { display: none; }
   input[type=range] { height: 36px; }
 }
