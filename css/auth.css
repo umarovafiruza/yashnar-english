@@ -443,3 +443,32 @@ body {
   font-size: 0.875rem;
   cursor: pointer;
 }
+
+/* Telegram Direct Contact Link in Auth */
+.auth-telegram-row {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.auth-telegram-link {
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.auth-telegram-link:hover {
+  color: var(--accent);
+}
