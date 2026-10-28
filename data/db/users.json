@@ -1,0 +1,34 @@
+[
+  {
+    "id": "usr_1793167206898_59678458",
+    "username": "testuser_06892",
+    "email": "testuser_06892@example.com",
+    "passwordHash": "eb8c181acdf98b14781094d3ce7b3656:e718fb14da91d8c4f028c410eebf03ff124300c441eb3707cbb8144f2c98dce7bcfc07e061a2e5ac5391beda5220602857e5d61c48f6b61423b3ac180c7c4141",
+    "provider": "local",
+    "providerId": null,
+    "level": "B2",
+    "createdAt": "2026-10-28T06:00:07.040Z",
+    "resetToken": null,
+    "resetTokenExpires": null
+  },
+  {
+    "id": "usr_1793167207714_07eb3512",
+    "username": "otheruser_07713",
+    "email": "otheruser_07713@example.com",
+    "passwordHash": "27c3a456388c2fa920ac6fc25a702ea9:088f5bc90f34677450d3d24d4aad9008020cb1c6c4b5bc95d40437f248a707c29a5b926b77492a148faaeca7884c1fe3b3bd1265e186975f6eea4673448d600f",
+    "provider": "local",
+    "providerId": null,
+    "level": "A2",
+    "createdAt": "2026-10-28T06:00:07.863Z"
+  },
+  {
+    "id": "usr_1793167801799_809a0c37",
+    "username": "demo_student",
+    "email": "demo@yashnar-english.uz",
+    "passwordHash": "7bea5cc5fc781cd961ba60d457a439c5:de8d30b9f7f5f5d1294e4b1e0eec60d50f104227d6750af42ebc948ab8005cde6fd1cc741067794f08be6476141b0d22d3646b200b62d82113a5be4639893f55",
+    "provider": "local",
+    "providerId": null,
+    "level": "B2",
+    "createdAt": "2026-10-28T06:10:01.919Z"
+  }
+]

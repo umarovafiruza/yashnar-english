@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Tizimga kirish — Yashnar English</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <header class="auth-nav">
+    <a href="/" class="auth-brand">
+      <span class="auth-brand-dot"></span>
+      <span>Yashnar English</span>
+    </a>
+    <a href="/" class="auth-nav-link">← Asosiy sahifaga qaytish</a>
+  </header>
+
+  <!-- Auth Card Center -->
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1 class="auth-title">Xush kelibsiz</h1>
+        <p class="auth-subtitle">Ingliz tili ta'limini davom ettirish uchun profilingizga kiring.</p>
+      </div>
+
+      <!-- Alert Banner -->
+      <div class="auth-alert" id="auth-alert" hidden></div>
+
+      <!-- Social Logins (Google & GitHub) -->
+      <div class="auth-social-stack">
+        <button type="button" class="btn-social" id="btn-oauth-google">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z"/>
+          </svg>
+          <span>Google orqali davom etish</span>
+        </button>
+
+        <button type="button" class="btn-social" id="btn-oauth-github">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GitHub orqali davom etish</span>
+        </button>
+      </div>
+
+      <div class="auth-divider">yoki login orqali</div>
+
+      <!-- Conventional Form -->
+      <form class="auth-form" id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-identifier">Foydalanuvchi nomi yoki elektron pochta</label>
+          <input type="text" class="form-input" id="login-identifier" placeholder="masalan: username yoki misol@domain.uz" autocomplete="username" required>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <label for="login-password">Parol</label>
+            <a href="/forgot-password" class="label-link">Parolni unutdingizmi?</a>
+          </div>
+          <div class="input-wrap">
+            <input type="password" class="form-input input-password" id="login-password" placeholder="Parolingizni kiriting" autocomplete="current-password" required>
+            <button type="button" class="btn-toggle-pw" id="btn-pw-toggle">Ko'rsatish</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-checkbox-label">
+            <input type="checkbox" id="login-remember" checked>
+            <span>Ushbu qurilmada sessiyani saqlab qolish</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-auth-submit" id="btn-login-submit">
+          Kirish
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Profilingiz yo'qmi? <a href="/signup">Bepul ro'yxatdan o'ting</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      window.YashnarAuth.initLoginForm();
+    });
+  </script>
+</body>
+</html>
