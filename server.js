@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const serverAi = require('./server-ai');
 
 const PORT = process.env.PORT || 3000;
 const MIME_TYPES = {
@@ -20,13 +21,94 @@ const MIME_TYPES = {
   '.ogg': 'audio/ogg'
 };
 
-const server = http.createServer((req, res) => {
-  let reqPath = decodeURI(req.url.split('?')[0]);
-  if (reqPath === '/' || reqPath === '') {
-    reqPath = '/index.html';
+function readJsonBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+      if (body.length > 1e6) { // 1MB limit
+        req.destroy();
+        reject(new Error('Payload too large'));
+      }
+    });
+    req.on('end', () => {
+      try {
+        resolve(body ? JSON.parse(body) : {});
+      } catch (e) {
+        reject(e);
+      }
+    });
+    req.on('error', reject);
+  });
+}
+
+function sendJson(res, statusCode, data) {
+  res.writeHead(statusCode, {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  });
+  res.end(JSON.stringify(data));
+}
+
+const server = http.createServer(async (req, res) => {
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    });
+    res.end();
+    return;
   }
 
-  let filePath = path.join(__dirname, reqPath);
+  const urlParts = req.url.split('?');
+  const reqPath = decodeURI(urlParts[0]);
+
+  // --- API Routes ---
+  if (reqPath.startsWith('/api/ai/')) {
+    try {
+      if (req.method === 'GET' && reqPath === '/api/ai/status') {
+        const status = serverAi.getAIStatus();
+        sendJson(res, 200, status);
+        return;
+      }
+
+      if (req.method === 'POST') {
+        const body = await readJsonBody(req);
+
+        if (reqPath === '/api/ai/chat') {
+          const result = await serverAi.handleSpeakingChat(body);
+          sendJson(res, 200, result);
+          return;
+        }
+
+        if (reqPath === '/api/ai/evaluate-writing') {
+          const result = await serverAi.handleWritingEvaluation(body);
+          sendJson(res, 200, result);
+          return;
+        }
+
+        if (reqPath === '/api/ai/evaluate-speaking') {
+          const result = await serverAi.handleSpeakingEvaluation(body);
+          sendJson(res, 200, result);
+          return;
+        }
+      }
+
+      sendJson(res, 404, { error: 'API endpoint not found' });
+      return;
+    } catch (err) {
+      console.error('API Error:', err);
+      sendJson(res, 500, { error: 'Internal AI processing error', message: err.message });
+      return;
+    }
+  }
+
+  // --- Static File Serving ---
+  let filePath = path.join(__dirname, reqPath === '/' ? 'index.html' : reqPath);
 
   // Security check: ensure path is within directory
   if (!filePath.startsWith(__dirname)) {
@@ -37,7 +119,6 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // Fallback to index.html if not found
       filePath = path.join(__dirname, 'index.html');
     }
 

@@ -83,6 +83,18 @@
     const homeEl = $('home');
     const quizRoot = $('quiz-root');
     const listeningRoot = $('listening-root');
+    const vocabRoot = $('vocab-root');
+    const speakingRoot = $('speaking-root');
+    const mockExamRoot = $('mock-exam-root');
+
+    function hideAllSections() {
+      if (homeEl) homeEl.hidden = true;
+      if (listeningRoot) listeningRoot.hidden = true;
+      if (quizRoot) quizRoot.hidden = true;
+      if (vocabRoot) vocabRoot.hidden = true;
+      if (speakingRoot) speakingRoot.hidden = true;
+      if (mockExamRoot) mockExamRoot.hidden = true;
+    }
 
     tabs.forEach(tab => {
       tab.addEventListener('click', function () {
@@ -92,28 +104,51 @@
         this.classList.add('active');
         State.activeAppTab = target;
 
+        hideAllSections();
+
         if (target === 'shadowing') {
-          if (quizRoot) quizRoot.hidden = true;
-          if (listeningRoot) listeningRoot.hidden = true;
           if (homeEl) homeEl.hidden = false;
           window.scrollTo(0, 0);
         } else if (target === 'listening') {
-          if (homeEl) homeEl.hidden = true;
-          if (quizRoot) quizRoot.hidden = true;
           if (listeningRoot) listeningRoot.hidden = false;
           if (window.openListeningSection) {
             window.openListeningSection();
           }
           window.scrollTo(0, 0);
+        } else if (target === 'vocabulary') {
+          if (vocabRoot) vocabRoot.hidden = false;
+          if (window.openVocabularySection) {
+            window.openVocabularySection();
+          }
+          window.scrollTo(0, 0);
+        } else if (target === 'speaking') {
+          if (speakingRoot) speakingRoot.hidden = false;
+          if (window.openSpeakingSection) {
+            window.openSpeakingSection();
+          }
+          window.scrollTo(0, 0);
+        } else if (target === 'mock-exam') {
+          if (mockExamRoot) mockExamRoot.hidden = false;
+          if (window.openMockExamSection) {
+            window.openMockExamSection();
+          }
+          window.scrollTo(0, 0);
         } else if (target === 'quiz') {
-          if (homeEl) homeEl.hidden = true;
-          if (listeningRoot) listeningRoot.hidden = true;
           if (quizRoot) quizRoot.hidden = false;
           renderCatalog();
           window.scrollTo(0, 0);
         }
       });
     });
+
+    // Support URL hash or query param (?tab=vocabulary, #mock-exam, etc.)
+    const initialHash = window.location.hash.replace('#', '') || new URLSearchParams(window.location.search).get('tab');
+    if (initialHash) {
+      const matchTab = Array.from(tabs).find(t => t.dataset.tab === initialHash);
+      if (matchTab) {
+        setTimeout(() => matchTab.click(), 50);
+      }
+    }
   }
 
   // --- Statistics Computation ---

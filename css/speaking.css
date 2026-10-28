@@ -1,0 +1,483 @@
+/* ========================================================
+   YASHNAR ENGLISH - AI SPEAKING PARTNER STYLES
+   Minimalist, Apple-inspired, accessible, responsive
+   ======================================================== */
+
+.speaking-root {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding-block: clamp(24px, 5vw, 64px) 80px;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px));
+  width: 100%;
+}
+
+@media (min-width: 1400px) {
+  .speaking-root {
+    max-width: 64rem;
+  }
+}
+
+/* Header */
+.speaking-header {
+  margin-bottom: clamp(24px, 5vw, 40px);
+}
+
+.speaking-brand {
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.speaking-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 8vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+  word-break: break-word;
+  text-wrap: balance;
+}
+
+.speaking-lead {
+  font-size: 1.125rem;
+  color: var(--ink);
+  margin: 0 0 8px;
+  max-width: 38rem;
+  font-weight: 500;
+}
+
+.speaking-sublead {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  margin: 0;
+  max-width: 38rem;
+}
+
+/* Mode Selection Screen */
+.speaking-setup-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(20px, 4vw, 32px);
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.speaking-setup-title {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.speaking-setup-desc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.speaking-modes-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .speaking-modes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.speaking-mode-card {
+  background: #fafbfc;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.speaking-mode-card:hover {
+  background: #ffffff;
+  border-color: #c4c7cf;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.speaking-mode-card.selected {
+  background: #ffffff;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+.speaking-mode-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.speaking-mode-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Level & Options Picker */
+.speaking-options-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.speaking-level-select {
+  font: inherit;
+  font-size: 0.875rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 14px;
+  color: var(--ink);
+  cursor: pointer;
+  outline: none;
+}
+
+/* Active Conversation View */
+.speaking-chat-container {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 640px;
+  max-height: 85vh;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+/* Chat Header */
+.speaking-chat-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fafbfc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.speaking-chat-topic-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.speaking-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10753f;
+}
+
+.speaking-chat-title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+
+.speaking-chat-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* Messages Area */
+.speaking-messages-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: #ffffff;
+}
+
+.chat-bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+  gap: 6px;
+}
+
+.chat-bubble-wrap.tutor {
+  align-self: flex-start;
+}
+
+.chat-bubble-wrap.learner {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.chat-sender-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-left: 2px;
+}
+
+.chat-bubble {
+  padding: 14px 18px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  border-radius: 18px;
+  position: relative;
+  word-break: break-word;
+}
+
+.chat-bubble.tutor {
+  background: #f4f5f7;
+  color: var(--ink);
+  border-top-left-radius: 4px;
+}
+
+.chat-bubble.learner {
+  background: var(--ink);
+  color: #ffffff;
+  border-top-right-radius: 4px;
+}
+
+.chat-bubble-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.btn-chat-speak {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-chat-speak:hover {
+  color: var(--ink);
+  background: #eef0f4;
+}
+
+/* Linguistic Feedback Card below student response */
+.feedback-box {
+  background: #fafbfc;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 4px;
+  font-size: 0.8125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feedback-tag {
+  font-weight: 700;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.feedback-correction {
+  color: #10753f;
+  font-weight: 500;
+}
+
+.feedback-alt {
+  color: #4b4f58;
+}
+
+.feedback-vocab-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid #f1f2f5;
+}
+
+.btn-vocab-chip {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.btn-vocab-chip:hover {
+  background: #f1f2f5;
+  border-color: var(--ink);
+}
+
+/* Input Bar */
+.speaking-input-bar {
+  padding: 14px 18px;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-mic-toggle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #f4f5f7;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: none;
+  transition: all 0.2s ease;
+}
+
+.btn-mic-toggle:hover {
+  background: #e4e6ea;
+  border-color: var(--ink);
+}
+
+.btn-mic-toggle.recording {
+  background: #d92d20;
+  color: #ffffff;
+  border-color: #d92d20;
+  animation: micPulse 1.5s infinite;
+}
+
+@keyframes micPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.speaking-text-input {
+  flex: 1;
+  font: inherit;
+  font-size: 0.9375rem;
+  background: #f7f8fa;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 18px;
+  color: var(--ink);
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.speaking-text-input:focus {
+  background: #ffffff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(43, 63, 214, 0.08);
+}
+
+.btn-speaking-send {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--ink);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: none;
+  transition: all 0.15s ease;
+}
+
+.btn-speaking-send:hover {
+  background: var(--accent);
+}
+
+/* Mic Error Banner */
+.speaking-mic-error {
+  background: #fef3f2;
+  border-bottom: 1px solid #fee4e2;
+  color: #d92d20;
+  padding: 8px 16px;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* End Session Summary */
+.speaking-summary-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(24px, 5vw, 40px);
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.speaking-summary-header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+}
+
+.speaking-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.speaking-metric-card {
+  background: #fafbfc;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.speaking-metric-val {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.speaking-metric-lbl {
+  font-size: 0.75rem;
+  color: var(--muted);
+}

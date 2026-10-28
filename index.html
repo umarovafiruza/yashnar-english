@@ -6,6 +6,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/quiz.css">
 <link rel="stylesheet" href="css/listening.css">
+<link rel="stylesheet" href="css/vocabulary.css">
+<link rel="stylesheet" href="css/speaking.css">
+<link rel="stylesheet" href="css/mock-exam.css">
 <style>
 /* Layout: a quiet list of ten topics; picking one opens a full-screen teleprompter with a fixed focus line. */
 :root {
@@ -200,6 +203,15 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
       </button>
       <button class="nav-tab" data-tab="listening" role="tab" type="button">
         Listening
+      </button>
+      <button class="nav-tab" data-tab="vocabulary" role="tab" type="button">
+        Vocabulary
+      </button>
+      <button class="nav-tab" data-tab="speaking" role="tab" type="button">
+        Speaking
+      </button>
+      <button class="nav-tab" data-tab="mock-exam" role="tab" type="button">
+        Mock Exam
       </button>
       <button class="nav-tab" data-tab="quiz" role="tab" type="button">
         Quiz
@@ -575,6 +587,146 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
       <div class="review-list" id="res-review-list"></div>
     </div>
   </div>
+</section>
+
+<!-- ==================== VOCABULARY BUILDER SECTION ==================== -->
+<section class="vocab-root" id="vocab-root" hidden aria-label="Vocabulary Builder Section">
+  <div class="vocab-header">
+    <p class="vocab-brand">Smart Lexical Acquisition &amp; SRS</p>
+    <h2 class="vocab-title">Vocabulary Builder</h2>
+    <p class="vocab-lead">A1–C1 darajasidagi eng muhim akademik va kundalik so'zlar. SuperMemo-2 (SM-2) Spaced Repetition algoritmi yordamida so'z boyligingizni tizimli kengaytiring.</p>
+  </div>
+
+  <!-- Stats Banner -->
+  <div class="vocab-stats-banner" id="vocab-stats-banner"></div>
+
+  <!-- Mode Switcher Tabs -->
+  <div class="vocab-mode-switcher">
+    <button type="button" class="vocab-mode-btn active" data-mode="browse">Barcha so'zlar</button>
+    <button type="button" class="vocab-mode-btn" data-mode="mywords">Mening so'zlarim</button>
+    <button type="button" class="vocab-mode-btn" data-mode="flashcards">Kartochkalar (Flashcards)</button>
+    <button type="button" class="vocab-mode-btn" data-mode="quiz">Lug'at testi (Quiz)</button>
+  </div>
+
+  <!-- Toolbar with Filters -->
+  <div class="vocab-toolbar" id="vocab-toolbar">
+    <div class="vocab-level-pills" role="tablist">
+      <button type="button" class="vocab-level-btn active" data-level="all">Barchasi</button>
+      <button type="button" class="vocab-level-btn" data-level="A1">A1</button>
+      <button type="button" class="vocab-level-btn" data-level="A2">A2</button>
+      <button type="button" class="vocab-level-btn" data-level="B1">B1</button>
+      <button type="button" class="vocab-level-btn" data-level="B2">B2</button>
+      <button type="button" class="vocab-level-btn" data-level="C1">C1</button>
+    </div>
+
+    <div class="vocab-filter-group">
+      <select class="vocab-topic-select" id="vocab-topic-select">
+        <option value="all">Barcha mavzular</option>
+        <option value="Daily Life">Daily Life</option>
+        <option value="Work & Study">Work & Study</option>
+        <option value="Mind & Emotion">Mind & Emotion</option>
+        <option value="Academic">Academic</option>
+        <option value="Technology">Technology</option>
+        <option value="Nature & Environment">Nature & Environment</option>
+        <option value="Society & Law">Society & Law</option>
+      </select>
+
+      <div class="vocab-search-wrap">
+        <input type="text" class="vocab-search-input" id="vocab-search-input" placeholder="So'z yoki tarjima qidiring...">
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Content Area -->
+  <div class="vocab-content-area" id="vocab-content-area"></div>
+</section>
+
+<!-- ==================== AI SPEAKING PARTNER SECTION ==================== -->
+<section class="speaking-root" id="speaking-root" hidden aria-label="AI Speaking Partner Section">
+  <div class="speaking-header">
+    <p class="speaking-brand">Interactive Dialogue &amp; Real-Time Feedback</p>
+    <h2 class="speaking-title">AI Speaking Partner</h2>
+    <p class="speaking-lead">Jonli muloqot orqali og'zaki nutqingizni rivojlantiring. 6 ta turli rejim, nutqni aniqlash (STT), tabiiy ovozli javob (TTS) hamda darhol grammatik va lug'aviy tahlil.</p>
+  </div>
+
+  <!-- Dynamic Content Area -->
+  <div class="speaking-content-area" id="speaking-content-area"></div>
+</section>
+
+<!-- ==================== AI MOCK EXAM SECTION ==================== -->
+<section class="mock-exam-root" id="mock-exam-root" hidden aria-label="AI Mock Exam Section">
+  <!-- View 1: Catalog -->
+  <div id="mock-exam-view-catalog">
+    <div class="exam-header">
+      <p class="exam-brand">Official Assessment &amp; Diagnostics</p>
+      <h2 class="exam-title">AI Mock Exam</h2>
+      <p class="exam-lead">CEFR Multilevel va IELTS formatidagi to'liq attestatsiya imtihonlari. Listening, Reading, Writing hamda Speaking bo'yicha mustaqil va sun'iy intellekt tahlilli rasmiy sinov modeli.</p>
+    </div>
+
+    <!-- Stats Banner -->
+    <div id="mock-exam-stats-banner"></div>
+
+    <!-- Exam Cards Grid -->
+    <div class="exam-cards-grid" id="mock-exam-cards-grid"></div>
+  </div>
+
+  <!-- View 2: Active Exam Simulator -->
+  <div id="mock-exam-view-sim" hidden>
+    <div class="exam-sim-shell">
+      <!-- Topbar -->
+      <div class="exam-topbar">
+        <div class="exam-topbar-info">
+          <span class="exam-topbar-title" id="exam-top-title">Exam Simulator</span>
+          <span class="exam-topbar-badge" id="exam-top-badge">CEFR</span>
+        </div>
+        <div class="exam-topbar-actions">
+          <div class="exam-timer-box">
+            <span>⏱</span>
+            <span id="exam-timer-display">75:00</span>
+          </div>
+          <button type="button" class="btn-exam-quit" id="btn-exam-quit">
+            Chiqish
+          </button>
+        </div>
+      </div>
+
+      <!-- Skill Tabs -->
+      <div class="exam-skill-tabs" role="tablist">
+        <button type="button" class="exam-skill-tab active" data-skill="listening">
+          1. Listening
+        </button>
+        <button type="button" class="exam-skill-tab" data-skill="reading">
+          2. Reading
+        </button>
+        <button type="button" class="exam-skill-tab" data-skill="writing">
+          3. Writing
+        </button>
+        <button type="button" class="exam-skill-tab" data-skill="speaking">
+          4. Speaking
+        </button>
+      </div>
+
+      <!-- Active Content Area -->
+      <div class="exam-content-area" id="exam-content-area"></div>
+
+      <!-- Exam Footer -->
+      <div class="exam-footer">
+        <button type="button" class="btn-nav-skill" id="btn-exam-nav-prev" style="display: none;">
+          Oldingi bo'lim
+        </button>
+        <div></div>
+        <button type="button" class="btn-nav-skill primary" id="btn-exam-nav-next">
+          Keyingi bo'lim
+        </button>
+        <button type="button" class="btn-nav-skill primary" id="btn-exam-nav-finish" style="display: none;">
+          Imtihonni topshirish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- View 3: Results & AI Report -->
+  <div id="mock-exam-view-results" hidden></div>
 </section>
 
 <section class="reader" id="reader" hidden aria-label="O'qish">
@@ -1659,4 +1811,9 @@ var TOPICS = [
 <script src="js/quiz.js"></script>
 <script src="data/listening-exercises.js"></script>
 <script src="js/listening.js"></script>
+<script src="data/vocabulary-data.js"></script>
+<script src="js/vocabulary.js"></script>
+<script src="js/speaking.js"></script>
+<script src="data/mock-exam-data.js"></script>
+<script src="js/mock-exam.js"></script>
 </body></html>

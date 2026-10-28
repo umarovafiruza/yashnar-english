@@ -793,7 +793,21 @@
     const transcriptBox = $('lis-transcript-box');
     const toggleTranscriptBtn = $('btn-toggle-transcript');
 
-    if (transcriptTextEl) transcriptTextEl.textContent = ex.transcript;
+    if (transcriptTextEl) {
+      const words = ex.transcript.split(/\s+/);
+      transcriptTextEl.innerHTML = words.map(w => `<span class="word-token" title="Lug'atga saqlash uchun bosing" style="cursor: pointer; border-radius: 3px; padding: 1px 2px; transition: background 0.15s ease;">${w}</span>`).join(' ');
+      transcriptTextEl.querySelectorAll('.word-token').forEach(span => {
+        span.onmouseenter = () => { span.style.background = '#e6e7ea'; };
+        span.onmouseleave = () => { span.style.background = 'transparent'; };
+        span.onclick = (e) => {
+          e.stopPropagation();
+          const rawWord = span.textContent.replace(/[^a-zA-Z'-]/g, '');
+          if (rawWord && window.saveWordToVocabulary) {
+            window.saveWordToVocabulary(rawWord);
+          }
+        };
+      });
+    }
     if (transcriptBox) transcriptBox.hidden = true;
     if (toggleTranscriptBtn) {
       toggleTranscriptBtn.textContent = "Audio matnini ko'rsatish (Show Transcript)";
