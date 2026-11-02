@@ -106,14 +106,28 @@ function makeClearCookie() {
   return `yashnar_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 }
 
+function resolveStaticPath(relativePath) {
+  const clean = relativePath.replace(/^\/+/, '');
+  const p1 = path.join(process.cwd(), clean);
+  if (fs.existsSync(p1)) return p1;
+  const p2 = path.join(__dirname, clean);
+  if (fs.existsSync(p2)) return p2;
+  return p1;
+}
+
 function serveStaticFile(res, absolutePath, defaultContentType = 'text/html; charset=utf-8') {
-  fs.readFile(absolutePath, (err, content) => {
+  let targetPath = absolutePath;
+  if (!fs.existsSync(targetPath)) {
+    const baseName = path.basename(absolutePath);
+    targetPath = resolveStaticPath(baseName);
+  }
+  fs.readFile(targetPath, (err, content) => {
     if (err) {
       res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
       res.end('Not Found');
       return;
     }
-    const ext = path.extname(absolutePath).toLowerCase();
+    const ext = path.extname(targetPath).toLowerCase();
     const contentType = MIME_TYPES[ext] || defaultContentType;
     res.writeHead(200, { 'Content-Type': contentType });
     res.end(content);
@@ -415,14 +429,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   // ==================== STATIC FILE SERVING ====================
-  let filePath = path.join(__dirname, reqPath);
-
-  // Security check: ensure path is within directory
-  if (!filePath.startsWith(__dirname)) {
-    res.writeHead(403);
-    res.end('Forbidden');
-    return;
-  }
+  const filePath = resolveStaticPath(reqPath);
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
@@ -447,6 +454,10 @@ const server = http.createServer(async (req, res) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
-});
+if (require.main === module || !process.env.VERCEL) {
+  server.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = server;
