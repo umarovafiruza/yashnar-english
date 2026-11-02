@@ -353,6 +353,36 @@ const server = http.createServer(async (req, res) => {
   }
 
   // ==================== YOUTUBE DATA API V3 ROUTES ====================
+  if (reqPath.startsWith('/api/debug-paths')) {
+    try {
+      const cwd = process.cwd();
+      const dir = __dirname;
+      let cwdFiles = [];
+      let dirFiles = [];
+      let cssExistsCwd = false;
+      let cssExistsDir = false;
+      try { cwdFiles = fs.readdirSync(cwd); } catch (e) { cwdFiles = [e.message]; }
+      try { dirFiles = fs.readdirSync(dir); } catch (e) { dirFiles = [e.message]; }
+      try { cssExistsCwd = fs.existsSync(path.join(cwd, 'css', 'landing.css')); } catch (e) {}
+      try { cssExistsDir = fs.existsSync(path.join(dir, 'css', 'landing.css')); } catch (e) {}
+      sendJson(res, 200, {
+        cwd,
+        dir,
+        cwdFiles,
+        dirFiles,
+        cssExistsCwd,
+        cssExistsDir,
+        reqUrl: req.url,
+        reqPath
+      });
+      return;
+    } catch (err) {
+      sendJson(res, 500, { error: err.message });
+      return;
+    }
+  }
+
+  // ==================== YOUTUBE DATA API V3 ROUTES ====================
   if (reqPath.startsWith('/api/youtube/')) {
     try {
       if (req.method === 'GET' && reqPath === '/api/youtube/status') {
