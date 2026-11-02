@@ -62,10 +62,7 @@ body {
 }
 
 .auth-brand-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
+  display: none !important;
 }
 
 .auth-nav-link {
@@ -120,9 +117,9 @@ body {
   line-height: 1.45;
 }
 
-/* Social Buttons */
+/* Social Buttons (Hozircha yashirilgan) */
 .auth-social-stack {
-  display: flex;
+  display: none !important;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 24px;
@@ -156,9 +153,9 @@ body {
   flex-shrink: 0;
 }
 
-/* Divider */
+/* Divider (Hozircha yashirilgan) */
 .auth-divider {
-  display: flex;
+  display: none !important;
   align-items: center;
   gap: 14px;
   margin: 24px 0;

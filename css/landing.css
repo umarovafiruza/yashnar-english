@@ -70,10 +70,7 @@ html, body {
 }
 
 .landing-brand-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
+  display: none !important;
 }
 
 .landing-nav-links {
