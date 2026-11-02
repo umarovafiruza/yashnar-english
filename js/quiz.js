@@ -81,6 +81,7 @@
   function initNavTabs() {
     const tabs = document.querySelectorAll('.nav-tab');
     const homeEl = $('home');
+    const videosRoot = $('videos-root');
     const quizRoot = $('quiz-root');
     const listeningRoot = $('listening-root');
     const vocabRoot = $('vocab-root');
@@ -89,6 +90,7 @@
 
     function hideAllSections() {
       if (homeEl) homeEl.hidden = true;
+      if (videosRoot) videosRoot.hidden = true;
       if (listeningRoot) listeningRoot.hidden = true;
       if (quizRoot) quizRoot.hidden = true;
       if (vocabRoot) vocabRoot.hidden = true;
@@ -108,6 +110,12 @@
 
         if (target === 'shadowing') {
           if (homeEl) homeEl.hidden = false;
+          window.scrollTo(0, 0);
+        } else if (target === 'videos') {
+          if (videosRoot) videosRoot.hidden = false;
+          if (window.openVideosSection) {
+            window.openVideosSection();
+          }
           window.scrollTo(0, 0);
         } else if (target === 'listening') {
           if (listeningRoot) listeningRoot.hidden = false;

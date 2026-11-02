@@ -46,5 +46,11 @@
     "createdAt": "2026-11-02T05:25:58.929Z",
     "expiresAt": 1796189158929,
     "rememberMe": true
+  },
+  "08416d30cd98a5e3d824807d1867c5946d061b6235da8054cd24f8a1e5ebf1e6": {
+    "userId": "usr_1793596147771_b0baccb3",
+    "createdAt": "2026-11-02T06:40:27.975Z",
+    "expiresAt": 1796193627975,
+    "rememberMe": true
   }
 }

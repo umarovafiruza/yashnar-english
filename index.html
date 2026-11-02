@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/vocabulary.css">
 <link rel="stylesheet" href="css/speaking.css">
 <link rel="stylesheet" href="css/mock-exam.css">
+<link rel="stylesheet" href="css/videos.css">
 <style>
 /* Layout: a quiet list of ten topics; picking one opens a full-screen teleprompter with a fixed focus line. */
 :root {
@@ -204,6 +205,9 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
       <button class="nav-tab active" data-tab="shadowing" role="tab" type="button">
         Shadowing
       </button>
+      <button class="nav-tab" data-tab="videos" role="tab" type="button">
+        Videos
+      </button>
       <button class="nav-tab" data-tab="listening" role="tab" type="button">
         Listening
       </button>
@@ -250,6 +254,110 @@ input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 
     </div>
   </aside>
 </main>
+
+<section class="videos-root" id="videos-root" hidden aria-label="YouTube English Practice Videos">
+  <!-- Header -->
+  <div class="vid-header">
+    <div class="vid-header-top">
+      <p class="vid-brand">
+        <svg class="vid-brand-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21.58 7.19a2.5 2.5 0 0 0-1.76-1.77C18.26 5 12 5 12 5s-6.26 0-7.82.42a2.5 2.5 0 0 0-1.76 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81a2.5 2.5 0 0 0 1.76 1.77C5.74 19 12 19 12 19s6.26 0 7.82-.42a2.5 2.5 0 0 0 1.76-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/>
+        </svg>
+        <span>YouTube Video English Practice</span>
+      </p>
+      <div class="vid-api-status" id="vid-api-status-badge">
+        <span class="vid-api-dot"></span>
+        <span>Yuklanmoqda...</span>
+      </div>
+    </div>
+    <h2 class="vid-title">Real English Videos</h2>
+    <p class="vid-lead">Haqiqiy YouTube podkastlari, intervyular, nutqlar va taqdimotlar orqali ingliz tilini eshitib tushunishni o'rganing.</p>
+    <p class="vid-sublead">Steve Jobs, Elon Musk, Bill Gates va boshqa mashhur shaxslarning nutqlarini rasmiy YouTube pleyeri orqali tinglang, subtitrlar bilan kuzating va tezlikni boshqaring.</p>
+  </div>
+
+  <!-- Search & Filter Toolbar -->
+  <div class="vid-toolbar">
+    <!-- Search Bar -->
+    <div class="vid-search-box">
+      <svg class="vid-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="vid-search-input" class="vid-search-input" placeholder="Mavzu, shaxs yoki kalit so'z qidiring (masalan: Steve Jobs, Elon Musk, TED Talk, Lex Fridman)..." autocomplete="off">
+      <button type="button" id="vid-search-clear" class="vid-search-clear" hidden aria-label="Tozalash">✕</button>
+    </div>
+
+    <!-- Categories Filter -->
+    <div class="vid-filter-group">
+      <span class="vid-filter-label">Kategoriyalar:</span>
+      <div class="vid-pills-row" role="tablist">
+        <button type="button" class="vid-pill active" data-category="all">Barchasi</button>
+        <button type="button" class="vid-pill" data-category="podcasts">🎙️ Podkastlar</button>
+        <button type="button" class="vid-pill" data-category="interviews">💬 Intervyular</button>
+        <button type="button" class="vid-pill" data-category="speeches">🎤 Nutqlar (Speeches)</button>
+        <button type="button" class="vid-pill" data-category="presentations">📊 Taqdimotlar (TED & Keynotes)</button>
+        <button type="button" class="vid-pill" data-category="personalities">🌟 Mashhurlar</button>
+      </div>
+    </div>
+
+    <!-- Famous Personalities Filter -->
+    <div class="vid-filter-group">
+      <span class="vid-filter-label">Mashhur Shaxslar:</span>
+      <div class="vid-pills-row" role="tablist">
+        <button type="button" class="vid-pill" data-personality="steve-jobs">
+          <span class="vid-pill-avatar">SJ</span>
+          <span>Steve Jobs</span>
+        </button>
+        <button type="button" class="vid-pill" data-personality="elon-musk">
+          <span class="vid-pill-avatar">EM</span>
+          <span>Elon Musk</span>
+        </button>
+        <button type="button" class="vid-pill" data-personality="bill-gates">
+          <span class="vid-pill-avatar">BG</span>
+          <span>Bill Gates</span>
+        </button>
+        <button type="button" class="vid-pill" data-personality="barack-obama">
+          <span class="vid-pill-avatar">BO</span>
+          <span>Barack Obama</span>
+        </button>
+        <button type="button" class="vid-pill" data-personality="sam-altman">
+          <span class="vid-pill-avatar">SA</span>
+          <span>Sam Altman</span>
+        </button>
+        <button type="button" class="vid-pill" data-personality="jensen-huang">
+          <span class="vid-pill-avatar">JH</span>
+          <span>Jensen Huang</span>
+        </button>
+        <button type="button" class="vid-pill" data-personality="lex-fridman">
+          <span class="vid-pill-avatar">LF</span>
+          <span>Lex Fridman</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- CEFR Level Filter -->
+    <div class="vid-filter-group">
+      <span class="vid-filter-label">CEFR Qiyinlik Darajasi:</span>
+      <div class="vid-pills-row" role="tablist">
+        <button type="button" class="vid-pill vid-pill-level active" data-level="all">Barchasi</button>
+        <button type="button" class="vid-pill vid-pill-level" data-level="A2">A2 Boshlang'ich (Sekin & Aniq)</button>
+        <button type="button" class="vid-pill vid-pill-level" data-level="B1">B1 O'rta (Kundalik & Suhbat)</button>
+        <button type="button" class="vid-pill vid-pill-level" data-level="B2">B2 Yuqori o'rta (Biznes & Nutq)</button>
+        <button type="button" class="vid-pill vid-pill-level" data-level="C1">C1-C2 Ilg'or (Ma'ruza & Fan)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Grid -->
+  <div class="vid-grid" id="vid-grid"></div>
+
+  <!-- Load More Button -->
+  <div class="vid-load-more-wrap" id="vid-load-more-wrap" hidden>
+    <button type="button" class="vid-btn-load-more" id="vid-btn-load-more">
+      <span>Yana ko‘proq videolar yuklash ↓</span>
+    </button>
+  </div>
+</section>
 
 <section class="listening-root" id="listening-root" hidden aria-label="Listening Practice Section">
   <!-- View 1: Catalog -->
@@ -1839,5 +1947,7 @@ var TOPICS = [
 <script src="js/speaking.js"></script>
 <script src="data/mock-exam-data.js"></script>
 <script src="js/mock-exam.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="js/videos.js"></script>
 <script src="js/app-auth.js"></script>
 </body></html>

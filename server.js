@@ -8,8 +8,37 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+
+// Lightweight zero-dependency .env loader
+(function loadEnv() {
+  const envFile = path.join(__dirname, '.env');
+  if (fs.existsSync(envFile)) {
+    try {
+      const content = fs.readFileSync(envFile, 'utf8');
+      content.split(/\r?\n/).forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) return;
+        const eqIdx = trimmed.indexOf('=');
+        if (eqIdx !== -1) {
+          const key = trimmed.slice(0, eqIdx).trim();
+          let val = trimmed.slice(eqIdx + 1).trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+            val = val.slice(1, -1);
+          }
+          if (!process.env[key]) {
+            process.env[key] = val;
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('Failed to parse .env file:', e.message);
+    }
+  }
+})();
+
 const serverAi = require('./server-ai');
 const serverAuth = require('./server-auth');
+const serverYoutube = require('./server-youtube');
 
 const PORT = process.env.PORT || 3000;
 
@@ -305,6 +334,37 @@ const server = http.createServer(async (req, res) => {
     } catch (err) {
       console.error('AI API Error:', err);
       sendJson(res, 500, { error: 'Internal AI processing error', message: err.message });
+      return;
+    }
+  }
+
+  // ==================== YOUTUBE DATA API V3 ROUTES ====================
+  if (reqPath.startsWith('/api/youtube/')) {
+    try {
+      if (req.method === 'GET' && reqPath === '/api/youtube/status') {
+        const status = serverYoutube.getStatus();
+        sendJson(res, 200, status);
+        return;
+      }
+
+      if (req.method === 'GET' && reqPath === '/api/youtube/videos') {
+        const result = await serverYoutube.getVideos(query);
+        sendJson(res, 200, result);
+        return;
+      }
+
+      if (req.method === 'POST' && reqPath === '/api/youtube/config') {
+        const body = await readJsonBody(req);
+        const result = serverYoutube.saveApiKey(body.apiKey);
+        sendJson(res, result.ok ? 200 : 400, result);
+        return;
+      }
+
+      sendJson(res, 404, { error: 'YouTube API endpoint not found' });
+      return;
+    } catch (err) {
+      console.error('YouTube API Error:', err);
+      sendJson(res, 500, { ok: false, error: 'YouTube API server error', message: err.message });
       return;
     }
   }
