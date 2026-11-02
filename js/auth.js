@@ -18,10 +18,12 @@
   function getRedirectDestination() {
     const raw = getQueryParam('redirect');
     // Prevent open redirect attacks: only allow internal paths
-    if (raw && raw.startsWith('/') && !raw.startsWith('//')) {
+    if (raw && !raw.startsWith('//') && (raw.startsWith('/') || raw.endsWith('.html'))) {
+      // If deployed on GitHub Pages, strip repository prefix if duplicated or use index.html
+      if (raw === '/app' || raw === '/') return 'index.html';
       return raw;
     }
-    return '/app';
+    return 'index.html';
   }
 
   // --- Password Toggle Helper ---
@@ -391,7 +393,7 @@
           if (res.ok && data.ok) {
             showAlert(alertEl, data.message + " Tizimga kirish sahifasiga yo'naltirilmoqda...", 'success');
             setTimeout(() => {
-              window.location.href = '/login';
+              window.location.href = 'login.html';
             }, 1200);
           } else {
             showAlert(alertEl, data.error || "Parolni yangilashda xatolik yuz berdi.");

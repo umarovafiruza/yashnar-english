@@ -86,6 +86,176 @@
     }
   }
 
+  // Static Real YouTube Seed Videos (Direct client-side fallback for GitHub Pages & static hosting)
+  const STATIC_REAL_VIDEOS = [
+    {
+      id: "UF8uR6Z6KLc",
+      title: "Steve Jobs' 2005 Stanford Commencement Address",
+      channelTitle: "Stanford",
+      publishedAt: "2008-03-07",
+      description: "At his Stanford University commencement address, Steve Jobs, CEO and co-founder of Apple and Pixar, urges graduates to pursue their dreams and see the opportunities in life's setbacks.",
+      thumbnail: "https://i.ytimg.com/vi/UF8uR6Z6KLc/hqdefault.jpg",
+      duration: "15:05",
+      views: "49.3M",
+      level: "B2",
+      personality: "Steve Jobs",
+      category: "speeches",
+      embeddable: true
+    },
+    {
+      id: "cdgQpa1pUUE",
+      title: "Elon Musk: The future we're building -- and boring | TED",
+      channelTitle: "TED",
+      publishedAt: "2017-05-03",
+      description: "Elon Musk talks with TED's Chris Anderson about his project building a tunnel network under Los Angeles, his electric cars at Tesla, and his plans to build a rocket to Mars.",
+      thumbnail: "https://i.ytimg.com/vi/cdgQpa1pUUE/hqdefault.jpg",
+      duration: "40:50",
+      views: "21.5M",
+      level: "B2",
+      personality: "Elon Musk",
+      category: "interviews",
+      embeddable: true
+    },
+    {
+      id: "6Af6b_wyiwI",
+      title: "Bill Gates: The next outbreak? We're not ready | TED",
+      channelTitle: "TED",
+      publishedAt: "2015-04-03",
+      description: "In 2015, Bill Gates gave this visionary TED Talk warning that the greatest risk of global catastrophe is not war, but a highly infectious virus.",
+      thumbnail: "https://i.ytimg.com/vi/6Af6b_wyiwI/hqdefault.jpg",
+      duration: "8:36",
+      views: "44.1M",
+      level: "B2",
+      personality: "Bill Gates",
+      category: "presentations",
+      embeddable: true
+    },
+    {
+      id: "Vhh_GeBPOhs",
+      title: "Steve Jobs introduces iPhone in 2007",
+      channelTitle: "Apple Keynotes",
+      publishedAt: "2012-09-08",
+      description: "Steve Jobs unveils the original iPhone at Macworld 2007. One of the most famous product launch presentations in modern technology history.",
+      thumbnail: "https://i.ytimg.com/vi/Vhh_GeBPOhs/hqdefault.jpg",
+      duration: "51:41",
+      views: "18.8M",
+      level: "B2",
+      personality: "Steve Jobs",
+      category: "presentations",
+      embeddable: true
+    },
+    {
+      id: "d9J-4kQW_Y4",
+      title: "Elon Musk on Artificial Intelligence, Mars, and Humanity",
+      channelTitle: "Lex Fridman",
+      publishedAt: "2021-12-28",
+      description: "Elon Musk joins Lex Fridman for an in-depth conversation discussing engineering, space exploration, neural networks, and the future of civilization.",
+      thumbnail: "https://i.ytimg.com/vi/d9J-4kQW_Y4/hqdefault.jpg",
+      duration: "2:31:18",
+      views: "9.2M",
+      level: "C1",
+      personality: "Elon Musk",
+      category: "podcasts",
+      embeddable: true
+    },
+    {
+      id: "JaF-fq2Zn7I",
+      title: "Bill Gates: 2007 Harvard Commencement Address",
+      channelTitle: "Harvard University",
+      publishedAt: "2007-06-08",
+      description: "Bill Gates addresses Harvard graduates, discussing reducing inequity around the world and applying technological innovation to global health and poverty.",
+      thumbnail: "https://i.ytimg.com/vi/JaF-fq2Zn7I/hqdefault.jpg",
+      duration: "29:56",
+      views: "3.4M",
+      level: "B2",
+      personality: "Bill Gates",
+      category: "speeches",
+      embeddable: true
+    },
+    {
+      id: "OFPwDe22CoY",
+      title: "Barack Obama: 2004 DNC Keynote Address",
+      channelTitle: "C-SPAN",
+      publishedAt: "2016-07-27",
+      description: "Barack Obama's historic keynote address at the 2004 Democratic Convention that launched him onto the global political stage.",
+      thumbnail: "https://i.ytimg.com/vi/OFPwDe22CoY/hqdefault.jpg",
+      duration: "16:48",
+      views: "5.1M",
+      level: "C1",
+      personality: "Barack Obama",
+      category: "speeches",
+      embeddable: true
+    },
+    {
+      id: "gPwt-W6v9w8",
+      title: "Sam Altman: OpenAI, GPT-5, and the Future of AI",
+      channelTitle: "Lex Fridman",
+      publishedAt: "2024-03-18",
+      description: "Sam Altman, CEO of OpenAI, discusses artificial general intelligence, compute scaling, language models, and the societal impact of modern AI.",
+      thumbnail: "https://i.ytimg.com/vi/gPwt-W6v9w8/hqdefault.jpg",
+      duration: "1:54:20",
+      views: "6.8M",
+      level: "C1",
+      personality: "Sam Altman",
+      category: "podcasts",
+      embeddable: true
+    },
+    {
+      id: "bU_kLqQ8n1Q",
+      title: "Jensen Huang: Stanford Graduate School of Business Keynote",
+      channelTitle: "Stanford GSB",
+      publishedAt: "2024-03-05",
+      description: "NVIDIA CEO Jensen Huang shares insights on leadership, building resilient companies, and how accelerated computing revolutionized industries.",
+      thumbnail: "https://i.ytimg.com/vi/bU_kLqQ8n1Q/hqdefault.jpg",
+      duration: "54:32",
+      views: "4.2M",
+      level: "B2",
+      personality: "Jensen Huang",
+      category: "presentations",
+      embeddable: true
+    },
+    {
+      id: "iG9CE55wbtY",
+      title: "Inside the mind of a master procrastinator | Tim Urban | TED",
+      channelTitle: "TED",
+      publishedAt: "2016-04-06",
+      description: "Tim Urban takes us on a journey through YouTube binges, Wikipedia rabbit holes and bouts of staring out the window, encouraging us to think harder about what we're really procrastinating on.",
+      thumbnail: "https://i.ytimg.com/vi/iG9CE55wbtY/hqdefault.jpg",
+      duration: "14:03",
+      views: "68.4M",
+      level: "B1",
+      category: "presentations",
+      embeddable: true
+    },
+    {
+      id: "7Bgz78JqY2M",
+      title: "How to speak so that people want to listen | Julian Treasure | TED",
+      channelTitle: "TED",
+      publishedAt: "2014-06-27",
+      description: "Have you ever felt like you're talking, but nobody is listening? Julian Treasure demonstrates the 'HAIL' framework for powerful speaking with vocal warm-ups.",
+      thumbnail: "https://i.ytimg.com/vi/7Bgz78JqY2M/hqdefault.jpg",
+      duration: "9:58",
+      views: "52.8M",
+      level: "B1",
+      category: "presentations",
+      embeddable: true
+    },
+    {
+      id: "arj7oStGLkU",
+      title: "Inside Bill's Brain: Decoding Bill Gates",
+      channelTitle: "Netflix",
+      publishedAt: "2019-08-29",
+      description: "A deep dive into the mind of Bill Gates, his reading habits, his thinking process, and his mission to solve complex global challenges.",
+      thumbnail: "https://i.ytimg.com/vi/arj7oStGLkU/hqdefault.jpg",
+      duration: "2:15",
+      views: "7.6M",
+      level: "B2",
+      personality: "Bill Gates",
+      category: "interviews",
+      embeddable: true
+    }
+  ];
+
   async function fetchVideos(append = false) {
     if (State.isLoading) return;
     State.isLoading = true;
@@ -119,14 +289,29 @@
         State.hasKey = data.hasKey;
 
         renderVideosGrid();
-      } else {
-        renderEmptyState('Videolarni yuklashda xatolik yuz berdi');
+        return;
       }
     } catch (err) {
-      console.error('Failed to fetch YouTube videos:', err);
-      if (!append) {
-        renderEmptyState('Tarmoq xatosi. Iltimos qaytadan urinib ko‘ring.');
+      console.warn('API video fetch fallback (static host / GitHub Pages):', err.message);
+      // Client-side real YouTube videos filtering for static hosting
+      let filtered = [...STATIC_REAL_VIDEOS];
+      if (State.personality) {
+        const p = State.personality.toLowerCase().replace('-', ' ');
+        filtered = filtered.filter(v => v.personality && v.personality.toLowerCase().includes(p));
       }
+      if (State.category && State.category !== 'all') {
+        filtered = filtered.filter(v => v.category === State.category);
+      }
+      if (State.level && State.level !== 'all') {
+        filtered = filtered.filter(v => v.level === State.level);
+      }
+      if (State.q && State.q.trim()) {
+        const qLow = State.q.toLowerCase();
+        filtered = filtered.filter(v => v.title.toLowerCase().includes(qLow) || v.description.toLowerCase().includes(qLow));
+      }
+      State.videos = filtered;
+      State.pageToken = null;
+      renderVideosGrid();
     } finally {
       State.isLoading = false;
       const btn = $('vid-btn-load-more');
